@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ExcelLayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ExcelLayoutList>
+    <ExcelLayoutItem>
+      <ColumnName>DeviceID</ColumnName>
+      <Heading />
+      <Text />
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>AISerNum</ColumnName>
+      <Heading />
+      <Text>177376</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>OverallGoodBad</ColumnName>
+      <Heading />
+      <Text>***Bad***</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>CoSerNum</ColumnName>
+      <Heading />
+      <Text />
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>OrderNum</ColumnName>
+      <Heading />
+      <Text />
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Type</ColumnName>
+      <Heading />
+      <Text>16K/9S-200</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>BL10</ColumnName>
+      <Heading />
+      <Text>B0.3</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>MinRCFL10</ColumnName>
+      <Heading />
+      <Text>0.994</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>RCFL10</ColumnName>
+      <Heading />
+      <Text>0.9990</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>MaxRCFL10</ColumnName>
+      <Heading />
+      <Text>1.006</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>RCFL10InLimits?</ColumnName>
+      <Heading />
+      <Text>Good</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>MinPA10</ColumnName>
+      <Heading />
+      <Text>-30</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>PA10Low</ColumnName>
+      <Heading />
+      <Text>-17.5</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>PA10</ColumnName>
+      <Heading />
+      <Text>16.7</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>PA10High</ColumnName>
+      <Heading />
+      <Text>12.5</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>MaxPA10</ColumnName>
+      <Heading />
+      <Text>30</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>PA10InLimits?</ColumnName>
+      <Heading />
+      <Text>****BadPA10****</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>BL100</ColumnName>
+      <Heading />
+      <Text>B0.3</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>MinRCFL100</ColumnName>
+      <Heading />
+      <Text>0.997</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>RCFL100</ColumnName>
+      <Heading />
+      <Text>0.99727</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>MaxRCFL100</ColumnName>
+      <Heading />
+      <Text>1.003</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>RCFL100InLimits?</ColumnName>
+      <Heading />
+      <Text>Good</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>MinPA100</ColumnName>
+      <Heading />
+      <Text>-15</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>PA100Low</ColumnName>
+      <Heading />
+      <Text>-14.325</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>PA100</ColumnName>
+      <Heading />
+      <Text>7.3</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>PA100High</ColumnName>
+      <Heading />
+      <Text>0.674999999999993</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>MaxPA100</ColumnName>
+      <Heading />
+      <Text>15</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>PA100InLimits?</ColumnName>
+      <Heading />
+      <Text>****BadPA100****</Text>
+    </ExcelLayoutItem>
+  </ExcelLayoutList>
+</ExcelLayout>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ExcelLayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ExcelLayoutList>
+    <ExcelLayoutItem>
+      <ColumnName>Company</ColumnName>
+      <Heading />
+      <Text>621EnergyLLC</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>PO#</ColumnName>
+      <Heading />
+      <Text>AB-3164</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Batch</ColumnName>
+      <Heading />
+      <Text>187075</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>StatusCode</ColumnName>
+      <Heading />
+      <Text>21</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>MeterID</ColumnName>
+      <Heading />
+      <Text>67751288</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>KwhUsage</ColumnName>
+      <Heading />
+      <Text>00000</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>MeterTypeCode</ColumnName>
+      <Heading />
+      <Text>KV2CB</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>ClassAmps</ColumnName>
+      <Heading />
+      <Text>200</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Form/Base</ColumnName>
+      <Heading />
+      <Text>16S</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>ALSF</ColumnName>
+      <Heading />
+      <Text>099.95</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>ALSL</ColumnName>
+      <Heading />
+      <Text>100.02</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>ALSP</ColumnName>
+      <Heading />
+      <Text>099.88</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>ALWA</ColumnName>
+      <Heading />
+      <Text>099.97</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Box</ColumnName>
+      <Heading />
+      <Text>019272</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Pallet</ColumnName>
+      <Heading />
+      <Text>01412</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Comments</ColumnName>
+      <Heading />
+      <Text />
+    </ExcelLayoutItem>
+  </ExcelLayoutList>
+</ExcelLayout>

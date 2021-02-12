@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ExcelLayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ExcelLayoutList>
+    <ExcelLayoutItem>
+      <ColumnName>MeterID</ColumnName>
+      <Heading />
+      <Text>67980064</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>ModuleId</ColumnName>
+      <Heading />
+      <Text />
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>ALSF</ColumnName>
+      <Heading />
+      <Text>100.00</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>ALSL</ColumnName>
+      <Heading />
+      <Text>100.11</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>ALSP</ColumnName>
+      <Heading />
+      <Text />
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>ALWA</ColumnName>
+      <Heading />
+      <Text>100.02</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Box</ColumnName>
+      <Heading />
+      <Text>024104</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Pallet</ColumnName>
+      <Heading />
+      <Text>01191</Text>
+    </ExcelLayoutItem>
+  </ExcelLayoutList>
+</ExcelLayout>

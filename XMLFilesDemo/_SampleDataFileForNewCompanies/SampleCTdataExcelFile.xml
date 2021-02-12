@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ExcelLayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ExcelLayoutList>
+    <ExcelLayoutItem>
+      <ColumnName>AISerNum</ColumnName>
+      <Heading />
+      <Text>173165</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>CoSerNum</ColumnName>
+      <Heading />
+      <Text>CT1234A</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Manufacturer</ColumnName>
+      <Heading />
+      <Text>VISION METERING</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Type</ColumnName>
+      <Heading />
+      <Text>2K/3S-200</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>UserId</ColumnName>
+      <Heading />
+      <Text>RM</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Date</ColumnName>
+      <Heading />
+      <Text>43241</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Rating1</ColumnName>
+      <Heading />
+      <Text />
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Rating2</ColumnName>
+      <Heading />
+      <Text>200</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Rating3</ColumnName>
+      <Heading />
+      <Text>5</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>NSV</ColumnName>
+      <Heading />
+      <Text />
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>BIL</ColumnName>
+      <Heading />
+      <Text />
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Amp100</ColumnName>
+      <Heading />
+      <Text>0.3</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Amp10</ColumnName>
+      <Heading />
+      <Text>0.3</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>BL100</ColumnName>
+      <Heading />
+      <Text>B0.1</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>BL10</ColumnName>
+      <Heading />
+      <Text>B0.1</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>RCFL10</ColumnName>
+      <Heading />
+      <Text>1.00119</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>RCFL100</ColumnName>
+      <Heading />
+      <Text>0.99952</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>PA100</ColumnName>
+      <Heading />
+      <Text>8.9</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>PA10</ColumnName>
+      <Heading />
+      <Text>15.0</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Dialectric</ColumnName>
+      <Heading />
+      <Text />
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>Meg</ColumnName>
+      <Heading />
+      <Text />
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>DeviceID</ColumnName>
+      <Heading />
+      <Text>Dev001</Text>
+    </ExcelLayoutItem>
+    <ExcelLayoutItem>
+      <ColumnName>OrderNum</ColumnName>
+      <Heading />
+      <Text>123456</Text>
+    </ExcelLayoutItem>
+  </ExcelLayoutList>
+</ExcelLayout>

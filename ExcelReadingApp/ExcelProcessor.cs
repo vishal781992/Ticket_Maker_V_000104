@@ -119,7 +119,7 @@ namespace ExcelReadingApp
             catch { MessageBox.Show("The Excel File is not being Saved!", "Warning>> ", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             //xlWorkBook.Close(true, misValue, misValue);
             xlWorkBook.Close(0);
-
+            //Array.Clear(ArrayMessageFromDatabase,0,ArrayMessageFromDatabase.Length);//dispose
             //excel.Quit();
             //Marshal.ReleaseComObject(xlWorkSheet);
             //Marshal.ReleaseComObject(xlWorkBook);

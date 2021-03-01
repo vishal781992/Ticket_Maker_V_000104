@@ -1619,11 +1619,11 @@ namespace ExcelReadingApp
         private BindingSource bindingSource = new BindingSource();
 
         public List<string> MeterTypeCodes = new List<string>();
-        public dynamic[,] ArrayMessageFromDatabase = new dynamic[1600,150]; string MessageFromDatabase;
+        public dynamic[,] ArrayMessageFromDatabase = new dynamic[4000,200]; string MessageFromDatabase;
         public List<string> MessageFromDatabaseList = new List<string>();
         public bool Flag_DuplicateRecord;
 
-        string[] AryOfColumns = new string[1000];
+        string[] AryOfColumns = new string[3500];
 
         public int RowCounter { get; set; }
         public void USER_init(string comboBox_DataBaseName)
@@ -1732,7 +1732,7 @@ namespace ExcelReadingApp
             }
             return AryOfColumns;
         }
-        public void TestQuery(List<string> Columnnames, string CompanyName,List<string> TicketsList, string textBox_CustomerPO,string dbo_type)
+        public void Tab1_TestQuery(List<string> Columnnames, string CompanyName,List<string> TicketsList, string textBox_CustomerPO,string dbo_type)
         {
             #region init
             string TicketNumberString = string.Empty;
@@ -1757,24 +1757,11 @@ namespace ExcelReadingApp
                 "INNER JOIN " + dbo_type + ".MeterTest ON " + dbo_type + ".Meter.MeterID = " + dbo_type + ".MeterTest.MeterID) " +
                 "INNER JOIN " + dbo_type + ".MeterReadings ON " + dbo_type + ".Meter.MeterID = " + dbo_type + ".MeterReadings.MeterID " +
                 "WHERE ";
-            //"INNER JOIN " + dbo_type + ".MeterTypeView ON " + dbo_type + ".Meter.MeterID = " + dbo_type + ".MeterTypeView.MeterID " +
-            //string tempC = "ORDER BY " + dbo_type + ".Meter.MeterID, " + dbo_type + ".Meter.Box, " + dbo_type + ".Meter.Pallet," + dbo_type + ".Meter.IMEI";
-            //does not affect the normal operations
 
-            string tempC = string.Empty;    //"ORDER BY " + dbo_type + ".Meter.MeterID, " + dbo_type + ".Meter.Box, " + dbo_type + ".Meter.Pallet";
+            string tempC = string.Empty;
 
-            string query = tempA + TicketNumberString;  // + tempC;
-
-            #region Commented Query
-            //this is original but with dbo modification
-            //string query =
-            //    "SELECT * " +
-            //    "FROM ((" + dbo_type + ".Meter INNER JOIN " + dbo_type + ".MeterTypeView ON " + dbo_type + ".Meter.MeterTypeCode = " + dbo_type + ".MeterTypeView.MeterTypeCode) " +
-            //    "INNER JOIN " + dbo_type + ".MeterTest ON " + dbo_type + ".Meter.MeterID = " + dbo_type + ".MeterTest.MeterID) " +
-            //    "INNER JOIN " + dbo_type + ".MeterReadings ON " + dbo_type + ".Meter.MeterID = " + dbo_type + ".MeterReadings.MeterID " +
-            //    "WHERE (((" + dbo_type + ".Meter.Batch)='" + batch + "')) " +
-            //    "ORDER BY " + dbo_type + ".Meter.MeterID, " + dbo_type + ".Meter.Box, " + dbo_type + ".Meter.Pallet," + dbo_type + ".Meter.IMEI";
-            #endregion Commented Query
+            string query = tempA + TicketNumberString;
+            //last version shares all the comments, beta 1 ...ExcelReadingApp_12_v000100_working_Stable0102 version_beta_1
 
             try
             {
@@ -1790,28 +1777,7 @@ namespace ExcelReadingApp
                     {
                         try
                         {
-                            #region Commented code
-                            //ArrayMessageFromDatabase[RowCounter, ColumnCounter] = Columnnames[ColumnCounter] + "_" + 
-                            //Utilities.CheckForNullString(DatabaseQueries.CheckForNull<string>(dr[Columnnames[ColumnCounter]]));
-                            // = Utilities.CheckForNullString(DatabaseQueries.CheckForNull<string>(dr[Columnnames[counter]]));
-                            //if(Columnnames[ColumnCounter].Contains("IMEI"))
-                            //{
-                            //    string tempString = string.Empty + DatabaseQueries.CheckForNull<dynamic>(dr[Columnnames[ColumnCounter]]);
-                            //    bool Result = long.TryParse(tempString, out long INTres);
-                            //    ArrayMessageFromDatabase[RowCounter, ColumnCounter] = INTres;
-                            //    //ArrayMessageFromDatabase[RowCounter, ColumnCounter] = int.Parse(string.Empty + DatabaseQueries.CheckForNull<dynamic>(dr[Columnnames[ColumnCounter]]));
-                            //}
-                            //else if(Columnnames[ColumnCounter].Contains("SimCardID"))//SimCardID
-                            //{
-                            //    string tempString = string.Empty + DatabaseQueries.CheckForNull<dynamic>(dr[Columnnames[ColumnCounter]]);
-                            //    string String_A = tempString.Substring(0, 10); string String_B = tempString.Substring(11);
-                            //    bool Result = ulong.TryParse(String_A, out ulong INTres_A); Result = ulong.TryParse(String_B, out ulong INTres_B);
-                            //    ArrayMessageFromDatabase[RowCounter, ColumnCounter] = String_A + String_B;
-                            //}
-                            //else {
-                            #endregion Commented code
                             ArrayMessageFromDatabase[RowCounter, ColumnCounter] = string.Empty + DatabaseQueries.CheckForNull<dynamic>(dr[Columnnames[ColumnCounter]]);
-                            // = Utilities.CheckForNullString(DatabaseQueries.CheckForNull<string>(dr[Columnnames[counter]]));
                         } //this is helping us to debug and see how the columns are coming out of the database and what data we need.
                         catch
                         {
@@ -1838,7 +1804,6 @@ namespace ExcelReadingApp
                                 }
                                 else
                                     ArrayMessageFromDatabase[RowCounter, ColumnCounter] = demoString;
-                                
                             }
                         }
                     }
@@ -1847,9 +1812,10 @@ namespace ExcelReadingApp
             }
             catch (Exception e)
             {
-                MessageBox.Show("Test Quest, Program Exception: " + e.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Test Quest, Program Exception: "+ dt.Rows.Count+"-------" + e.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            dt.Dispose();
         }
         public List<string> DuplicateCheckInDB(string ToFind, string MeterID, string KeyWord, string TempConnectionString, string dbo_type)
         {
@@ -1886,13 +1852,20 @@ namespace ExcelReadingApp
         {
             //string dbo_type = databaseType;
             string tempA = "SELECT * " +
+                "FROM (((" + dbo_type + ".Meter INNER JOIN " + dbo_type + ".MeterTypeView ON " + dbo_type + ".Meter.MeterTypeCode = " + dbo_type + ".MeterTypeView.MeterTypeCode) " +
+                "INNER JOIN " + dbo_type + ".MeterTest ON " + dbo_type + ".Meter.MeterID = " + dbo_type + ".MeterTest.MeterID) " +
+                "INNER JOIN " + dbo_type + ".MeterReadings ON " + dbo_type + ".Meter.MeterID = " + dbo_type + ".MeterReadings.MeterID) " +
+                "WHERE (" + dbo_type+".Meter."+ WhatToFind + ")='" + textbox_t6_ticket + "'";
+
+            /*            string tempA = "SELECT * " +
                 "FROM ((" + dbo_type + ".Meter INNER JOIN " + dbo_type + ".MeterTypeView ON " + dbo_type + ".Meter.MeterTypeCode = " + dbo_type + ".MeterTypeView.MeterTypeCode) " +
                 "INNER JOIN " + dbo_type + ".MeterTest ON " + dbo_type + ".Meter.MeterID = " + dbo_type + ".MeterTest.MeterID) " +
                 "INNER JOIN " + dbo_type + ".MeterReadings ON " + dbo_type + ".Meter.MeterID = " + dbo_type + ".MeterReadings.MeterID " +
-                "WHERE (" +dbo_type+".Meter."+ WhatToFind + ")='" + textbox_t6_ticket + "'";
-            //"INNER JOIN " + dbo_type + ".MeterTypeView ON " + dbo_type + ".Meter.MeterID = " + dbo_type + ".MeterTypeView.MeterID " +
+                "INNER JOIN " + dbo_type + ".TestSetup ON " + dbo_type + ".MeterType.TestSetupCode = " + dbo_type + ".TestSetup.TestSetupCode " +
 
-            //string tempC = "ORDER BY " + dbo_type + ".Meter.MeterID, " + dbo_type + ".Meter.Box, " + dbo_type + ".Meter.Pallet," + dbo_type + ".Meter.IMEI";
+                "WHERE (" + dbo_type+".Meter."+ WhatToFind + ")='" + textbox_t6_ticket + "'";
+             
+             */
             string query = tempA;//+ tempC;
 
             this.dt = DatabaseQueries.ExecuteQuery(query, user.ConnectionString);
@@ -2032,6 +2005,29 @@ namespace ExcelReadingApp
                                 }
                                 catch { ArrayMessageFromDatabase[RowCounter, ColumnCounter] = null; }
                             }
+
+                            if (Spcl_MergeEvents[ColumnCounter].ToUpper().Contains("MERGE"))
+                            {
+                                string[] ColumnNames = Spcl_MergeEvents[ColumnCounter].Split(',');
+                                try
+                                {
+                                    ColumnNames[0] = ColumnNames[0].Substring(6);
+                                    ColumnNames[2] = ColumnNames[2].Trim(')');
+                                }
+                                catch { }
+
+                                try
+                                {
+                                    string result = string.Empty + DatabaseQueries.CheckForNull<dynamic>(drElement[ColumnNames[0]]);
+                                    string result1 = string.Empty + DatabaseQueries.CheckForNull<dynamic>(drElement[ColumnNames[2]]); 
+                                    string result2 = string.Empty;
+
+                                    result2 = ColumnNames[1].Contains("NS") ? (result + result1) : (result + ColumnNames[1] + result1);
+
+                                    ArrayMessageFromDatabase[RowCounter, ColumnCounter] = result2;
+                                }
+                                catch { ArrayMessageFromDatabase[RowCounter, ColumnCounter] = "Error"; }
+                            }
                         }
                     }
                 }
@@ -2065,10 +2061,6 @@ namespace ExcelReadingApp
                 return "NoData";
             }
         }
-
-
-
-
         public DataTable SendSQLRaw(string CommandSQL, string Database)
         {
             string tempBatch = string.Empty;

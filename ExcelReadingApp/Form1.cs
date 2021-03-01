@@ -28,9 +28,9 @@ namespace ExcelReadingApp
     {
         #region Declarations
 
-        const string Version = "V.0.01.02";//latest as of 15/12/2020
-        const string VersionDetails = "Cleaned the XML function for tab6, clipboard action added. Added xml support for dominion.\r\nAdded xlsx format for all files .Added Dominion. Cleared all small bugs,\r\nNewest version, Added suport for Kevin everywhere.\r\nAdded more Functions to view the Database.";
-        //"Removed the error occuring in TestQuery.\r\nsmall bug Fixes.\r\nLogics are added.\r\nAdded more details for meters for verifying.";
+        const string Version = "V.0.01.03";//latest as of 15/12/2020
+        const string VersionDetails = "Array Size 4000, Cleaned the XML function for tab6, clipboard action added. Added xml support for dominion.\r\nAdded xlsx format for all files .Added Dominion. Cleared all small bugs,\r\nNewest version, Added suport for Kevin everywhere.\r\nAdded more Functions to view the Database.";
+        //"Removed the error occuring in Tab1_TestQuery.\r\nsmall bug Fixes.\r\nLogics are added.\r\nAdded more details for meters for verifying.";
         const string OriginalShipmentPath = @"\\netserver3\DATA\_ShipmentFiles\";
 
         public string FileNameFromRootDir { get; set; }
@@ -40,10 +40,10 @@ namespace ExcelReadingApp
         public const string ParentFolderToStickTo = @"\\Netserver3\DATA\ShipmentsXMLfiles\";
 
         string[] users = new string[] { "vishal", "steve" };
-        string[] Dte = new string[1600];
-        string[] AryOfColumns = new string[1000];
+        string[] Dte = new string[3500];
+        string[] AryOfColumns = new string[3500];
 
-        public dynamic[,] Spcl_ArrayMessageFromDatabase = new dynamic[1600, 150];
+        public dynamic[,] Spcl_ArrayMessageFromDatabase = new dynamic[4000, 200];
 
         public string FilePathOfXML,
                       strFilename1,
@@ -251,7 +251,7 @@ namespace ExcelReadingApp
                      */
                     Ticket_Formater(textBox_PickTicketNumber.Text, databaseType);
 
-                    QT.TestQuery(FM.ColumnValue, CompanyName, TicketsListForDataQuerySQL, textBox_CustomerPO.Text, databaseType);//database type is important here
+                    QT.Tab1_TestQuery(FM.ColumnValue, CompanyName, TicketsListForDataQuerySQL, textBox_CustomerPO.Text, databaseType);//database type is important here
 
                     progressBarUniversal.Value += 10;//4
 
@@ -301,6 +301,7 @@ namespace ExcelReadingApp
                         }
                     }
                     progressBarUniversal.Value += 10;//5
+                    dynamic[,] demo = QT.ArrayMessageFromDatabase;
 
                     /*WriteANewExcel, this function writes the new Excel File to the Directory. This handles writing all the rows and columns to the file.
                      * CompletePathForXLSXexport responsible for file path and extension.
@@ -981,7 +982,7 @@ namespace ExcelReadingApp
             progressBarUniversal.Value += 50; label32.Visible = true;
             #endregion ProgressBar
 
-            string XMLFormat = ".xml", XLSXFormat = ".xlsx", CSVFormat = ".csv";
+            string XMLFormat = ".xml", XLSXFormat = ".xlsx", CSVFormat = ".csv", TEXTformat = ".txt";
 
             QueryTest QT = new QueryTest();//database query init
 
@@ -990,7 +991,7 @@ namespace ExcelReadingApp
             string FileNameExtension = comboBox_t6_CompanyName.Text + "_PT" + textbox_t6_ticket.Text + "_PO" +
                            textbox_t6_PO.Text + "_" + GetCurrentDateAndTime(true);
 
-            string CompletePathForXLSXexport = OriginalShipmentPath + comboBox_t6_CompanyName.Text+ @"\" + FileNameExtension;
+            string CompletePathForExport = OriginalShipmentPath + comboBox_t6_CompanyName.Text+ @"\" + FileNameExtension;
 
             richTextBox_T6.Text = "File path created.\r\n";
 
@@ -1009,29 +1010,36 @@ namespace ExcelReadingApp
              */
             if(radioButton1.Checked)   //csv file creation  && !radioButton2.Checked
             {
-                CompletePathForXLSXexport += CSVFormat;
+                CompletePathForExport += CSVFormat;
                 richTextBox_T6.AppendText("\r\nFile is being written.");
-                EXS.WriteCSVSpecial(Spcl_FileColumnNames, QT.RowCounter, Spcl_ArrayMessageFromDatabase, CompletePathForXLSXexport);
+                EXS.WriteCSVSpecial(Spcl_FileColumnNames, QT.RowCounter, Spcl_ArrayMessageFromDatabase, CompletePathForExport);
             }
-               
+
+            else if (radioButton_T6_TXT.Checked)   //csv file creation  && !radioButton2.Checked
+            {
+                CompletePathForExport += TEXTformat;
+                richTextBox_T6.AppendText("\r\nFile is being written.");
+                EXS.WriteCSVSpecial(Spcl_FileColumnNames, QT.RowCounter, Spcl_ArrayMessageFromDatabase, CompletePathForExport);
+            }
+
 
             else if(radioButton2.Checked)  //excel File creation !radioButton1.Checked && 
             {
-                CompletePathForXLSXexport += XLSXFormat;
+                CompletePathForExport += XLSXFormat;
                 richTextBox_T6.AppendText("\r\nFile is being written.");
-                EXS.WriteExcelSpecial(Spcl_FileColumnNames, QT.RowCounter, Spcl_ArrayMessageFromDatabase, CompletePathForXLSXexport);
+                EXS.WriteExcelSpecial(Spcl_FileColumnNames, QT.RowCounter, Spcl_ArrayMessageFromDatabase, CompletePathForExport);
             }
 
             else if(radioButton3_XML.Checked) //XML format
             {
-                CompletePathForXLSXexport += XMLFormat;
+                CompletePathForExport += XMLFormat;
                 richTextBox_T6.AppendText("\r\nFile is being written.");
-                EXS.WriteXMLSpecial(Spcl_FileColumnNames, QT.RowCounter, Spcl_ArrayMessageFromDatabase,Place1,Place2,Place3,Place4, textBox_DeviceType.Text, CompletePathForXLSXexport);
+                EXS.WriteXMLSpecial(Spcl_FileColumnNames, QT.RowCounter, Spcl_ArrayMessageFromDatabase,Place1,Place2,Place3,Place4, textBox_DeviceType.Text, CompletePathForExport);
             }
             richTextBox_T6.AppendText("\r\nWriting is Done");
             progressBarUniversal.Value += 20;
 
-            MBU.MB_TextDisplay("The File is created.\r\n"+ CompletePathForXLSXexport); button_t6_browse.BackColor = Color.Transparent;
+            MBU.MB_TextDisplay("The File is created.\r\n"+ CompletePathForExport); button_t6_browse.BackColor = Color.Transparent;
             progressBarUniversal.Value = progressBarUniversal.Maximum;
 
             DialogResult dialogR = MBU.ShowDialog();
@@ -2018,7 +2026,7 @@ namespace ExcelReadingApp
         //    user.SetConnectionString();  //connection string is set here
         //}
 
-        //private void TestQuery(List<string> Columnnames, string CompanyName)
+        //private void Tab1_TestQuery(List<string> Columnnames, string CompanyName)
         //{
         //    string batch = textBox_PickTicketNumber.Text;//"192735";
         //    string query =

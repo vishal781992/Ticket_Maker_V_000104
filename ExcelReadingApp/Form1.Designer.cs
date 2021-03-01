@@ -157,6 +157,7 @@
             this.vishalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBox_DeviceType = new System.Windows.Forms.TextBox();
             this.label37 = new System.Windows.Forms.Label();
+            this.radioButton_T6_TXT = new System.Windows.Forms.RadioButton();
             this.tabControl1.SuspendLayout();
             this.Tickets.SuspendLayout();
             this.DefineCompany.SuspendLayout();
@@ -1201,6 +1202,7 @@
             // 
             // SpecialFormats
             // 
+            this.SpecialFormats.Controls.Add(this.radioButton_T6_TXT);
             this.SpecialFormats.Controls.Add(this.label37);
             this.SpecialFormats.Controls.Add(this.textBox_DeviceType);
             this.SpecialFormats.Controls.Add(this.label36);
@@ -1283,10 +1285,10 @@
             this.radioButton1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.radioButton1.Location = new System.Drawing.Point(461, 267);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(111, 17);
+            this.radioButton1.Size = new System.Drawing.Size(114, 17);
             this.radioButton1.TabIndex = 26;
             this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Csv File To Export";
+            this.radioButton1.Text = "CSV File To Export";
             this.radioButton1.UseVisualStyleBackColor = true;
             this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
@@ -1325,7 +1327,7 @@
             this.comboBox_t6_CompanyName.Name = "comboBox_t6_CompanyName";
             this.comboBox_t6_CompanyName.Size = new System.Drawing.Size(232, 21);
             this.comboBox_t6_CompanyName.TabIndex = 22;
-            this.comboBox_t6_CompanyName.Text = "dominion";
+            this.comboBox_t6_CompanyName.Text = "demo";
             this.comboBox_t6_CompanyName.DropDown += new System.EventHandler(this.comboBox_t6_CompanyName_DropDown);
             this.comboBox_t6_CompanyName.SelectedIndexChanged += new System.EventHandler(this.comboBox_t6_CompanyName_SelectedIndexChanged);
             this.comboBox_t6_CompanyName.DropDownClosed += new System.EventHandler(this.comboBox_t6_CompanyName_DropDownClosed);
@@ -1372,7 +1374,7 @@
             this.comboBox_t6_DBName.Name = "comboBox_t6_DBName";
             this.comboBox_t6_DBName.Size = new System.Drawing.Size(232, 21);
             this.comboBox_t6_DBName.TabIndex = 7;
-            this.comboBox_t6_DBName.Text = "VA2019";
+            this.comboBox_t6_DBName.Text = "lora2021";
             this.comboBox_t6_DBName.DropDown += new System.EventHandler(this.comboBox_t6_DBName_DropDown);
             this.comboBox_t6_DBName.DropDownClosed += new System.EventHandler(this.comboBox_t6_DBName_DropDownClosed);
             // 
@@ -1400,7 +1402,7 @@
             this.textbox_t6_ticket.Name = "textbox_t6_ticket";
             this.textbox_t6_ticket.Size = new System.Drawing.Size(233, 20);
             this.textbox_t6_ticket.TabIndex = 3;
-            this.textbox_t6_ticket.Text = "196183";
+            this.textbox_t6_ticket.Text = "196662";
             // 
             // Label26
             // 
@@ -1535,6 +1537,18 @@
             this.label37.Size = new System.Drawing.Size(65, 13);
             this.label37.TabIndex = 32;
             this.label37.Text = "DeviceType";
+            // 
+            // radioButton_T6_TXT
+            // 
+            this.radioButton_T6_TXT.AutoSize = true;
+            this.radioButton_T6_TXT.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.radioButton_T6_TXT.Location = new System.Drawing.Point(578, 290);
+            this.radioButton_T6_TXT.Name = "radioButton_T6_TXT";
+            this.radioButton_T6_TXT.Size = new System.Drawing.Size(110, 17);
+            this.radioButton_T6_TXT.TabIndex = 33;
+            this.radioButton_T6_TXT.TabStop = true;
+            this.radioButton_T6_TXT.Text = "TXT File to Export";
+            this.radioButton_T6_TXT.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1704,6 +1718,7 @@
         private System.Windows.Forms.ComboBox WhatToFind;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.TextBox textBox_DeviceType;
+        private System.Windows.Forms.RadioButton radioButton_T6_TXT;
     }
 }
 

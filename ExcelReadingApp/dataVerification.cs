@@ -12,8 +12,8 @@ namespace ExcelReadingApp
     class dataVerification
     {
         #region Declarations
-        protected dynamic[,] arrayMessageFromDatabase = new string[1600, 150];
-        public dynamic[,] TempAryForIntegers = new dynamic[1600,2];
+        protected dynamic[,] arrayMessageFromDatabase = new string[4000, 200];
+        public dynamic[,] TempAryForIntegers = new dynamic[4000,25];
         protected List<string> columnValue = new List<string>();
         protected List<string> List_Common_temp = new List<string>();
         protected List<string> List_Common_temp_New = new List<string>();

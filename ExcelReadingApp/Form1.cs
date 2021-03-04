@@ -27,17 +27,11 @@ namespace ExcelReadingApp
     public partial class Form1 : Form  
     {
         #region Declarations
-
-        const string Version = "V.0.01.03";//latest as of 15/12/2020
-        const string VersionDetails = "Array Size 4000, Cleaned the XML function for tab6, clipboard action added. Added xml support for dominion.\r\nAdded xlsx format for all files .Added Dominion. Cleared all small bugs,\r\nNewest version, Added suport for Kevin everywhere.\r\nAdded more Functions to view the Database.";
-        //"Removed the error occuring in Tab1_TestQuery.\r\nsmall bug Fixes.\r\nLogics are added.\r\nAdded more details for meters for verifying.";
-        const string OriginalShipmentPath = @"\\netserver3\DATA\_ShipmentFiles\";
+        DeclarationClass DC = new DeclarationClass();
 
         public string FileNameFromRootDir { get; set; }
         //public string FileInputDir = @""; //the file location changer meanwhile debugging
-        public string CompanyXMLCreationRootAddress = @"\\Netserver3\DATA\ShipmentsXMLfiles\";//M:
-        public string databaseType = string.Empty;//"dbo";
-        public const string ParentFolderToStickTo = @"\\Netserver3\DATA\ShipmentsXMLfiles\";
+       
 
         string[] users = new string[] { "vishal", "steve" };
         string[] Dte = new string[3500];
@@ -45,32 +39,13 @@ namespace ExcelReadingApp
 
         public dynamic[,] Spcl_ArrayMessageFromDatabase = new dynamic[4000, 200];
 
-        public string FilePathOfXML,
-                      strFilename1,
-                      ExportXlSXPath,
-                      File1NameTrimmed,
-                      XMLMakerPath,
-                      Log_DataCollectionString,
-                      Log_TicketToLog,
-                      Log_TicketCounts,month_T,
-                      month_Tminus1,
-                      month_Tplus1,
-                      YearForSearch, 
-                      String_SearchDataTab4,
-                      folderNameForOutputFile,
-                      Search_TicketNumber;
 
         public const int APPEND = 1,
                          NEWLine = 2;
 
         public int counterForFileGeneratedInXml;
 
-        public bool Flag_searchDirectory = false,
-                    flag_POnumber = true,
-                    Flag_forDisplayOfDatabase = false,
-                    IamPopUP = false,
-                    Flag_searchDirectoryBecauseFoldersUpdated = false,
-                    Flag_InsertNFHere = true;
+
 
         public List<int> ColumnNumberToAddFromFile2 = new List<int>(),
                          ColumnNumberToDeleteFromFile1 = new List<int>();
@@ -136,7 +111,7 @@ namespace ExcelReadingApp
             myBackgroundWorkertab6.ProgressChanged += myBackgroundWorkertab6_ProgressChanged;
 
 
-            this.Text = "Vision TickerMaker " + Version;
+            this.Text = "Vision TickerMaker " + DC.Version;
         }
         #endregion Form init
 
@@ -146,26 +121,24 @@ namespace ExcelReadingApp
             /*Note: This commented code below is important if you need to load the config file. Write now it seems to be overkilling and hence does not need. 
              */
             //string StartUppath = System.IO.Directory.GetCurrentDirectory(); StartUppath = Directory.GetParent(StartUppath).Parent.Parent.FullName;
-            //StartUppath = StartUppath + "\\config.xml";
-            richTextBox_viewer.AppendText("The Process is Simple," +
+            RTB1.AppendText("The Process is Simple," +
                                         "\r\n1. Enter the Ticketnumber from the Ticket you are holding(Top right corner)" +
                                         "\r\n3. Enter the Database keywoard if it is not a common database listed below." +
                                         "\r\nSelect from the same drop down menu." +
                                         "\r\n4. Enter the PO# number." +
                                         "\r\n6.Hit Start." +
                                         "\r\nThank you!" +
-                                        "\r\nVersion " + Version + " includes\r\n" + VersionDetails);
-            //textBox_databaseType.Text = "dbo";
+                                        "\r\nVersion " + DC.Version + " includes\r\n" + DC.VersionDetails);
 
             checkBox_KeepTheLog.Checked = true;
             checkBox_SupressWarnings.Checked = false;
 
             label_TicketNumberDisplay.Visible = false;
             label_Date.Text = "Date: " + GetCurrentDateAndTime(false);
-            labelVersionNumber1.Text = Version;
+            labelVersionNumber1.Text = DC.Version;
             monthCalendarStart.Visible = false; monthCalendarEnd.Visible = false; label_Database.Visible = false; button_Refresh.Visible = false; //button invisible for a while
-            myBackgroundWorker.RunWorkerAsync(2); this.progressBarUniversal.Maximum = 500; //Button_main.Visible = false;
-            toolTip_version.SetToolTip(labelVersionNumber1, VersionDetails);
+            myBackgroundWorker.RunWorkerAsync(2); this.PBar1.Maximum = 500; //Button_main.Visible = false;
+            toolTip_version.SetToolTip(labelVersionNumber1, DC.VersionDetails);
             checkBox_tab1_Intellicode.Checked = true;
             //textBox_PickTicketNumber.Text = "195006,194999,195018,195013,195015,195011,195016,195010,195019,194997,194998"; //only fro debug, else clean it.
             labeltab5_1.Visible = false; label32.Visible = false;
@@ -177,7 +150,6 @@ namespace ExcelReadingApp
 
             //only fro debug, else clean it.
             button_ForDebug.Visible = false;
-
     }
         #endregion Form_Loading
 
@@ -185,9 +157,9 @@ namespace ExcelReadingApp
         private void ButtonClick_Start(object sender, EventArgs e)
         {
             label_TicketNumberDisplay.Visible = true; TicketNumberIndividual.Clear(); TicketsListForDataQuerySQL.Clear();
-            Log_TicketToLog = string.Empty; Log_TicketCounts = string.Empty;
-            progressBarUniversal.Value = 0;progressBarUniversal.Maximum = 500;
-            flag_POnumber = true; label_TicketNumberDisplay.Text = textBox_PickTicketNumber.Text;
+            DC.Log_TicketToLog = string.Empty; DC.Log_TicketCounts = string.Empty;
+            PBar1.Value = 0;PBar1.Maximum = 500;
+            DC.flag_POnumber = true; label_TicketNumberDisplay.Text = textBox_PickTicketNumber.Text;
 
             #region intellicode checked?
             if (checkBox_tab1_Intellicode.Checked)//when the automatic column detection is enabled
@@ -206,9 +178,9 @@ namespace ExcelReadingApp
                   && !string.IsNullOrEmpty(comboBox_CompanyName.Text) && !string.IsNullOrEmpty(comboBox_DataBaseName.Text))
             {
                 #region inititial declaration
-                progressBarUniversal.PerformStep();
+                PBar1.PerformStep();
 
-                richTextBox_viewer.AppendText("\r\nThe START button is pressed, wait for the program to create a File for you." +
+                RTB1.AppendText("\r\nThe START button is pressed, wait for the program to create a File for you." +
                     "\r\nA Message will popup as the File is created successfully(If not Supressed). If you  get a message(Popup) for Replacing the existing file" +
                     "\r\nHit YES if you want to overwrite, Else NO!");
 
@@ -216,7 +188,7 @@ namespace ExcelReadingApp
                 FormatModifier FM = new FormatModifier();
                 QueryTest QT = new QueryTest();
 
-                progressBarUniversal.PerformStep();
+                PBar1.PerformStep();
                 FM.FormatString = richTextBox_FileFormat.Text;
 
                 #endregion inititial declaration
@@ -227,81 +199,86 @@ namespace ExcelReadingApp
                  */
                 FM.FormatParser();
 
-                progressBarUniversal.Value += 10;//1
+                PBar1.Value += 10;//1
 
                 FM.xmlLoadData(FileNameFromRootDir);
 
                 if (FM.ColumnValue.Count > 0)
                 {
-                    progressBarUniversal.Value += 10;
+                    PBar1.Value += 10;
 
                     /*Note: XMLRequestData, this function load the original file to take the company name and not takes from the user, remember it uses the user defined format but
                      * for company name it loads the xml file in the records given through the "Sold to" text input
                      */
-                    string CompanyName = FM.XMLRequestData("Company", FilePathOfXML);
-                    databaseType = comboBox_DataBaseName.Text.ToUpper().EndsWith("VISION") ? "dbo" : "power";
+                    string CompanyName = FM.XMLRequestData("Company", DC.FilePathOfXML);
+                    DC.databaseType = comboBox_DataBaseName.Text.ToUpper().EndsWith("VISION") ? "dbo" : "power";
 
                     /*USER_init function is used to init all the necessary credentials for the test query SQL. This is not to be messed up with.
                      * Everything about the SQl should be happen before this is executed.
                      */
                     QT.USER_init(comboBox_DataBaseName.Text);
-                    progressBarUniversal.Value += 10;
+                    PBar1.Value += 10;
 
-                    /*Ticket_Formater helpful in multiple ticket entries. it removes any delimiter in the string and adds it to the list.
-                     */
-                    Ticket_Formater(textBox_PickTicketNumber.Text, databaseType);
+                    /*Ticket_Formater helpful in multiple ticket entries. it removes any delimiter in the string and adds it to the list.*/
 
-                    QT.Tab1_TestQuery(FM.ColumnValue, CompanyName, TicketsListForDataQuerySQL, textBox_CustomerPO.Text, databaseType);//database type is important here
+                    Ticket_Formater(textBox_PickTicketNumber.Text, DC.databaseType);
 
-                    progressBarUniversal.Value += 10;//4
+                    QT.Tab1_TestQuery(FM.ColumnValue, CompanyName, TicketsListForDataQuerySQL, textBox_CustomerPO.Text, DC.databaseType);//database type is important here
+
+                    PBar1.Value += 10;//4
 
                     string CompletePathForXLSXexport = string.Empty; string FileNameExtension = string.Empty;
-                    if(checkBox_Tab1_SaveInShipment.Checked)
+
+                    //saving into _Shipments
+                    if (checkBox_Tab1_SaveInShipment.Checked)    
                     {
                         if (TicketNumberIndividual.Count > 1)
                         {
+                            //Multiple tickets are processed here
                             FileNameExtension = CompanyName + "_PT" + TicketNumberIndividual[0] + "_M" + TicketsListForDataQuerySQL.Count + "_PO" +
                             textBox_CustomerPO.Text + "_" + GetCurrentDateAndTime(true) + ".xlsx";
-                            //FileName = CompanyName_ TicketName_ multipleTicketsIfAny_ PONumber_ Time_ Format_
 
-                            Log_TicketCounts = "M" + TicketsListForDataQuerySQL.Count;
+                            //for log purpose
+                            DC.Log_TicketCounts = "M" + TicketsListForDataQuerySQL.Count;
 
-                            CompletePathForXLSXexport = OriginalShipmentPath + ExportXlSXPath.Substring(39) + FileNameExtension;
-                            folderNameForOutputFile = OriginalShipmentPath + ExportXlSXPath.Substring(39);
+                            CompletePathForXLSXexport = DC.ORIGINALSHIPMENTPATH_ + DC.ExportXlSXPath.Substring(39) + FileNameExtension;
+                            DC.folderNameForOutputFile = DC.ORIGINALSHIPMENTPATH_ + DC.ExportXlSXPath.Substring(39);//39 is the size of the string
 
                             
                         }
                         else
                         {
+                            //Single ticket
                             FileNameExtension = CompanyName + "_PT" + TicketNumberIndividual[0] + "_PO" +
                             textBox_CustomerPO.Text + "_" + GetCurrentDateAndTime(true) + ".xlsx";
-                            
-                            Log_TicketCounts = "S";
 
-                            CompletePathForXLSXexport = OriginalShipmentPath + ExportXlSXPath.Substring(39) + FileNameExtension;
+                            //Log purpose
+                            DC.Log_TicketCounts = "S";
 
-                            folderNameForOutputFile = OriginalShipmentPath + ExportXlSXPath.Substring(39);
+                            CompletePathForXLSXexport = DC.ORIGINALSHIPMENTPATH_ + DC.ExportXlSXPath.Substring(39) + FileNameExtension;
+                            DC.folderNameForOutputFile = DC.ORIGINALSHIPMENTPATH_ + DC.ExportXlSXPath.Substring(39);
                         }
                     }
+                    //saving into Vishal_Shipments(demo folder for testing)
                     else
                     {
                         if (TicketNumberIndividual.Count > 1)
                         {
                             FileNameExtension = CompanyName + "_PT" + TicketNumberIndividual[0] + "_M" + TicketsListForDataQuerySQL.Count + "_PO" +
-                            textBox_CustomerPO.Text + "_" + GetCurrentDateAndTime(true) + ".xlsx"; Log_TicketCounts = "M" + TicketsListForDataQuerySQL.Count;
-                            CompletePathForXLSXexport = ExportXlSXPath + FileNameExtension;
-                            folderNameForOutputFile = OriginalShipmentPath + ExportXlSXPath.Substring(39);
+                            textBox_CustomerPO.Text + "_" + GetCurrentDateAndTime(true) + ".xlsx"; DC.Log_TicketCounts = "M" + TicketsListForDataQuerySQL.Count;
+                            CompletePathForXLSXexport = DC.ExportXlSXPath + FileNameExtension;
+                            DC.folderNameForOutputFile = DC.ORIGINALSHIPMENTPATH_ + DC.ExportXlSXPath.Substring(39);
                         }
                         else
                         {
                             FileNameExtension = CompanyName + "_PT" + TicketNumberIndividual[0] + "_PO" +
-                           textBox_CustomerPO.Text + "_" + GetCurrentDateAndTime(true) + ".xlsx"; Log_TicketCounts = "S";
-                            CompletePathForXLSXexport = ExportXlSXPath + FileNameExtension;
-                            folderNameForOutputFile = OriginalShipmentPath + ExportXlSXPath.Substring(39);
+                           textBox_CustomerPO.Text + "_" + GetCurrentDateAndTime(true) + ".xlsx"; DC.Log_TicketCounts = "S";
+                            CompletePathForXLSXexport = DC.ExportXlSXPath + FileNameExtension;
+                            DC.folderNameForOutputFile = DC.ORIGINALSHIPMENTPATH_ + DC.ExportXlSXPath.Substring(39);
                         }
                     }
-                    progressBarUniversal.Value += 10;//5
-                    dynamic[,] demo = QT.ArrayMessageFromDatabase;
+                    PBar1.Value += 10;//5
+                    //dynamic[,] demo = QT.ArrayMessageFromDatabase;
 
                     /*WriteANewExcel, this function writes the new Excel File to the Directory. This handles writing all the rows and columns to the file.
                      * CompletePathForXLSXexport responsible for file path and extension.
@@ -315,18 +292,19 @@ namespace ExcelReadingApp
                         #region Excel Modification
                         int result = EX.ExcelModifierFunction(CompletePathForXLSXexport, FM.ColumnValue.Count);
                         if(result==1)
-                            richTextBox_viewer.AppendText("Excel Intelligent column detection is done.");
+                            RTB1.AppendText("Excel Intelligent column detection is done.");
                         else
-                            richTextBox_viewer.AppendText("Error in column detection process.");
+                            RTB1.AppendText("Error in column detection process.");
                         #endregion Excel Modification
                     }
-                    progressBarUniversal.Value += 10;//6
-                    richTextBox_viewer.Text = "File name: " + FileNameExtension+ "\r\n";  //start of the richtext box text
-                    richTextBox_viewer.AppendText("\r\nFolder name: " + folderNameForOutputFile + "\r\n\r\n");
-                    richTextBox_viewer.AppendText( QT.RowCounter + " VM --> " + CompanyName + "," + " PO#:" + textBox_CustomerPO.Text +
+                    PBar1.Value += 10;//6 
+                    DC.FileNameExtension_Global = FileNameExtension;
+                    RTB1.Text = "File name: " + FileNameExtension+ "\r\n";  //start of the richtext box text
+                    RTB1.AppendText("\r\nFolder name: " + DC.folderNameForOutputFile + "\r\n\r\n");
+                    RTB1.AppendText( QT.RowCounter + " VM --> " + CompanyName + "," + " PO#:" + textBox_CustomerPO.Text +
                         "," + "PT:" + textBox_PickTicketNumber.Text+", "+"DB: "+ comboBox_DataBaseName.Text+".");
-                    //richTextBox_viewer.AppendText("\r\nFile name: "+ FileNameExtension);
-                    richTextBox_viewer.AppendText("\r\n-------------------------------------------------");
+
+                    RTB1.AppendText(DeclarationClass.DividerString);
                 #endregion Program Sequence
 
                 #region DataVerificationForUser
@@ -338,212 +316,189 @@ namespace ExcelReadingApp
                         {/*This Verification_ItemRange and Verification_General_typeSort functions verify the data according to the tickets standards to the user by displaying them to the screen.
                       * Next task is to keep the log of the files. according to the 
                       */
-                            richTextBox_viewer.AppendText("\r\nMeter Range: " + DV.Verification_ItemRange("MeterID", TicketNumber));
-                            richTextBox_viewer.SelectionColor = Color.Red;
-                            richTextBox_viewer.AppendText("\r\n(P-)Pallet: " + DV.Verification_ItemRange("Pallet", TicketNumber)+ "  |  Blank Box/s: "+DV.Flag_ErrorInPallet);
-                            richTextBox_viewer.AppendText("\r\n(B-)Box: " + DV.Verification_ItemRange("Box", TicketNumber));
-                            richTextBox_viewer.SelectionColor = Color.Black;
+                            RTB1.AppendText("\r\nMeter Range: " + DV.Verification_ItemRange("MeterID", TicketNumber));
+
+                            #region Pallet, Box
+                            RTB1.SelectionColor = Color.Red;
+                            RTB1.AppendText("\r\n(B-)Box: " + DV.Verification_ItemRange("Box", TicketNumber));
+                            RTB1.AppendText("\r\n(P-)Pallet: " + DV.Verification_ItemRange("Pallet", TicketNumber)+ "  |  Blank Box/s: "+DV.Flag_ErrorInPallet);
+                            RTB1.SelectionColor = Color.Black;
+                            #endregion Pallet, Box
 
                             //this is general sorting methods used, supply the name and it gives us the output
-                            richTextBox_viewer.AppendText("\r\nFW: ");
+                            #region FirmwareRevision
+                            RTB1.AppendText("\r\nFW: ");
                             TempList = DV.Verification_General_typeSort("FirmwareRevision", TicketNumber);
                             foreach (string stringin in TempList)
-                                richTextBox_viewer.AppendText(stringin + "- "); TempList.Clear();
-                            progressBarUniversal.Value += 10;//7
+                                RTB1.AppendText(stringin + "- "); TempList.Clear();
+                            PBar1.Value += 10;//7
 
                             TempList = DV.Verification_General_typeSort("MeterTypeCode", TicketNumber);
+                            #endregion FirmwareRevision
 
-                            richTextBox_viewer.AppendText("\r\nMeter Classification:\r\n"); TempList2.Clear();
+                            #region Meter Classification
+                            RTB1.AppendText("\r\nMeter Classification:\r\n"); TempList2.Clear();
                             TempList2 = DV.MeterTypeClassification(TempList); int CounterTemp = 0;
                             foreach (string stringin in TempList)
                             {
-                                richTextBox_viewer.AppendText(stringin + "-("+TempList2[CounterTemp]+")" + "\r\n"); CounterTemp++;
+                                RTB1.AppendText(stringin + "-("+TempList2[CounterTemp]+")" + "\r\n"); CounterTemp++;
                             }
                             TempList.Clear();
+                            #endregion Meter Classification
 
-                            richTextBox_viewer.AppendText("\r\nForm: ");
+                            #region Form/base
+                            RTB1.AppendText("\r\nForm: ");
                             TempList = DV.Verification_General_typeSort("Form/Base", TicketNumber);
                             foreach (string stringin in TempList)
-                                richTextBox_viewer.AppendText(stringin + "- "); TempList.Clear();
-                            richTextBox_viewer.AppendText("\r\nClass: ");
+                                RTB1.AppendText(stringin + "- "); TempList.Clear();
+                            #endregion Form/base
+
+                            #region ClassAmps
+                            RTB1.AppendText("\r\nClass: ");
                             TempList = DV.Verification_General_typeSort("ClassAmps", TicketNumber);
                             foreach (string stringin in TempList)
-                                richTextBox_viewer.AppendText(stringin + "- "); TempList.Clear();
+                                RTB1.AppendText(stringin + "- "); TempList.Clear();
+                            #endregion ClassAmps
 
-                            richTextBox_viewer.AppendText("\r\n" + DV.RowCounterForTheSpecTicket + " of " + QT.RowCounter + " VM --> " + CompanyName + "," + " PO#:" + textBox_CustomerPO.Text +
+                            #region CompanyName
+                            RTB1.AppendText("\r\n" + DV.RowCounterForTheSpecTicket + " of " + QT.RowCounter + " VM --> " + CompanyName + "," + " PO#:" + textBox_CustomerPO.Text +
                                                         "," + "PT:" + TicketNumber+"\r\n");
                             TempList.Clear();
+                            #endregion CompanyName
+
                             DV.CounterGenerator();
-                            progressBarUniversal.Value += 10;//8
+                            PBar1.Value += 10;//8
                             if (TicketNumberIndividual.Count > 1)
-                                richTextBox_viewer.AppendText("\r\n-------");
+                                RTB1.AppendText(DeclarationClass.DividerString1);
                         }
                         //crossVerify the columns
-                        richTextBox_viewer.AppendText("\r\n-----------------Verification-------------------- For All Tickets(If Multiple)");
+                        //this step is the last and more time consuming than everyone.
 
+                        #region Verification
+                        RTB1.AppendText("\r\n-----------------Verification-------------------- For All Tickets(If Multiple)");
+
+                        #region CommIDs
                         TempList = DV.VerificationOfCommID();                 //commIDS
                         if (TempList.Count > 0)
                         {
-                            richTextBox_viewer.AppendText("\r\nCommID Errors(Dont consider them as Errors as it checks for format matching 05 or 08. Many more formats exists.)");
+                            RTB1.AppendText("\r\nCommID Errors(Dont consider them as Errors as it checks for format matching 05 or 08. Many more formats exists.)");
                             foreach (string stringin in TempList)
-                                richTextBox_viewer.AppendText(stringin + "- "); TempList.Clear();
+                                RTB1.AppendText(stringin + "- "); TempList.Clear();
                         }
                         else
-                            richTextBox_viewer.AppendText("\r\nCommID's, No error");
-                        
+                            RTB1.AppendText("\r\nCommID's, No error");
+                        #endregion CommIDs
 
+                        #region ALxx
                         var tuple = DV.Verification_AL_Checks("ALSF");              //ALSF
                         if(tuple.Item1.Count>0)
                         {
-                            richTextBox_viewer.AppendText("\r\nALSF error: ");
+                            RTB1.AppendText("\r\nALSF error: ");
                             foreach (string stringin in tuple.Item1)
-                                richTextBox_viewer.AppendText(stringin + "-");
+                                RTB1.AppendText(stringin + "-");
                         }
                         else
-                            richTextBox_viewer.AppendText("\r\nALSF, No error");
-                        richTextBox_viewer.AppendText(", ALSF range: " + tuple.Item2[0] + "<-->" + tuple.Item2[tuple.Item2.Count - 1]); tuple.Item1.Clear(); tuple.Item2.Clear();
+                            RTB1.AppendText("\r\nALSF, No error");
+                        RTB1.AppendText(", ALSF range: " + tuple.Item2[0] + "<-->" + tuple.Item2[tuple.Item2.Count - 1]); tuple.Item1.Clear(); tuple.Item2.Clear();
 
                           tuple = DV.Verification_AL_Checks("ALSL");                  //ALSL
                         if (tuple.Item1.Count > 0)
                         {
-                            richTextBox_viewer.AppendText("\r\nALSL error: ");
+                            RTB1.AppendText("\r\nALSL error: ");
                             foreach (string stringin in tuple.Item1)
-                                richTextBox_viewer.AppendText(stringin + "-");
+                                RTB1.AppendText(stringin + "-");
                         }
                         else
-                            richTextBox_viewer.AppendText("\r\nALSL, No error");
-                        richTextBox_viewer.AppendText(", ALSL range: " + tuple.Item2[0] + "<-->" + tuple.Item2[tuple.Item2.Count - 1]); tuple.Item1.Clear(); tuple.Item2.Clear();
+                            RTB1.AppendText("\r\nALSL, No error");
+                        RTB1.AppendText(", ALSL range: " + tuple.Item2[0] + "<-->" + tuple.Item2[tuple.Item2.Count - 1]); tuple.Item1.Clear(); tuple.Item2.Clear();
 
                         tuple = DV.Verification_AL_Checks("ALSP");                  //ALSP
                         if (tuple.Item1.Count > 0)
                         {
-                            richTextBox_viewer.AppendText("\r\nALSP error: ");
+                            RTB1.AppendText("\r\nALSP error: ");
                             foreach (string stringin in tuple.Item1)
-                                richTextBox_viewer.AppendText(stringin + "-");
+                                RTB1.AppendText(stringin + "-");
                         }
                         else
-                            richTextBox_viewer.AppendText("\r\nALSP, No error");
-                        richTextBox_viewer.AppendText(", ALSP range: " + tuple.Item2[0] + "<-->" + tuple.Item2[tuple.Item2.Count - 1]); tuple.Item1.Clear(); tuple.Item2.Clear();
+                            RTB1.AppendText("\r\nALSP, No error");
+                        RTB1.AppendText(", ALSP range: " + tuple.Item2[0] + "<-->" + tuple.Item2[tuple.Item2.Count - 1]); tuple.Item1.Clear(); tuple.Item2.Clear();
 
 
                         tuple = DV.Verification_AL_Checks("ALWA");                  //ALWA
                         if (tuple.Item1.Count > 0)
                         {
-                            richTextBox_viewer.AppendText("\r\nALWA error: ");
+                            RTB1.AppendText("\r\nALWA error: ");
                             foreach (string stringin in tuple.Item1)
-                                richTextBox_viewer.AppendText(stringin + "-");
+                                RTB1.AppendText(stringin + "-");
                         }
                         else
-                            richTextBox_viewer.AppendText("\r\nALWA, No error");
-                        richTextBox_viewer.AppendText(", ALWA range: " + tuple.Item2[0] + "<-->" + tuple.Item2[tuple.Item2.Count - 1]); tuple.Item1.Clear(); tuple.Item2.Clear();
-                        //QT.DuplicateCheckInDB("CommID", "10586365", "MeterID");//DuplicateCheckInDB(string ToFind, string MeterID, string KeyWord)
-                        richTextBox_viewer.AppendText("\r\n-----------------Dupli Checks-------------------- For All Tickets(If Multiple)\r\nCommID:" + DV.DuplicateRecordVerification("CommID",comboBox_DataBaseName.Text, databaseType));
-                        richTextBox_viewer.AppendText("\r\nMeterID:" + DV.DuplicateRecordVerification("MeterID", comboBox_DataBaseName.Text, databaseType));
-                        try{richTextBox_viewer.AppendText("\r\nDevEUI:" + DV.DuplicateRecordVerification("DevEUI", comboBox_DataBaseName.Text, databaseType));}catch {}
-                        try { richTextBox_viewer.AppendText("\r\nIMEI:" + DV.DuplicateRecordVerification("IMEI", comboBox_DataBaseName.Text, databaseType)); } catch {}
-                        try { richTextBox_viewer.AppendText("\r\nSimCardID:" + DV.DuplicateRecordVerification("SimCardID", comboBox_DataBaseName.Text, databaseType)); } catch {}
+                            RTB1.AppendText("\r\nALWA, No error");
 
-                        try { richTextBox_viewer.AppendText("\r\nsame DevEUI,Diff Meters:" + DV.DuplicateRecordVerification("MeterID", comboBox_DataBaseName.Text, databaseType , "DevEUI")); } catch {}
-                        try { richTextBox_viewer.AppendText("\r\nsame IMEI,Diff Meters:" + DV.DuplicateRecordVerification("MeterID", comboBox_DataBaseName.Text, databaseType , "IMEI")); } catch {}
-                        try { richTextBox_viewer.AppendText("\r\nsame SimID,Diff Meters:" + DV.DuplicateRecordVerification("MeterID", comboBox_DataBaseName.Text, databaseType , "SimCardID")); } catch {}
-                        richTextBox_viewer.AppendText("\r\n-------------------------------------------------");
+                        RTB1.AppendText(", ALWA range: " + tuple.Item2[0] + "<-->" + tuple.Item2[tuple.Item2.Count - 1]); tuple.Item1.Clear(); tuple.Item2.Clear();
+                        #endregion ALxx
 
+                        #region Duplicate check
+                        RTB1.AppendText("\r\n-----------------Dupli Checks-------------------- For All Tickets(If Multiple)\r\nCommID:" + DV.DuplicateRecordVerification("CommID",comboBox_DataBaseName.Text, DC.databaseType));
+                        RTB1.AppendText("\r\nMeterID:" + DV.DuplicateRecordVerification("MeterID", comboBox_DataBaseName.Text, DC.databaseType));
+                        try{RTB1.AppendText("\r\nDevEUI:" + DV.DuplicateRecordVerification("DevEUI", comboBox_DataBaseName.Text, DC.databaseType));}catch {}
+                        try { RTB1.AppendText("\r\nIMEI:" + DV.DuplicateRecordVerification("IMEI", comboBox_DataBaseName.Text, DC.databaseType)); } catch {}
+                        try { RTB1.AppendText("\r\nSimCardID:" + DV.DuplicateRecordVerification("SimCardID", comboBox_DataBaseName.Text, DC.databaseType)); } catch {}
+
+                        try { RTB1.AppendText("\r\nsame DevEUI,Diff Meters:" + DV.DuplicateRecordVerification("MeterID", comboBox_DataBaseName.Text, DC.databaseType , "DevEUI")); } catch {}
+                        try { RTB1.AppendText("\r\nsame IMEI,Diff Meters:" + DV.DuplicateRecordVerification("MeterID", comboBox_DataBaseName.Text, DC.databaseType , "IMEI")); } catch {}
+                        try { RTB1.AppendText("\r\nsame SimID,Diff Meters:" + DV.DuplicateRecordVerification("MeterID", comboBox_DataBaseName.Text, DC.databaseType , "SimCardID")); } catch {}
+                        RTB1.AppendText("\r\n-------------------------------------------------");
+                        #endregion Duplicate check
+
+                        #region keep the log checkbox
                         if (checkBox_KeepTheLog.Checked)
                         {
                             DataLogging DLT = new DataLogging();
-                            Log_DataCollectionString = richTextBox_viewer.Text;
+
+                            DC.Log_DataCollectionString = RTB1.Text;
                             foreach (string TicketNum in TicketNumberIndividual)
-                                Log_TicketToLog += "<" + TicketNum + "> ";
-                            try { DLT.FileOpener(Log_TicketToLog, Log_TicketCounts, Log_DataCollectionString); }
-                            catch { richTextBox_viewer.AppendText("\r\nError in the data Logging"); if (!checkBox_SupressWarnings.Checked) { MessageBox.Show("Important-- Log is not recorded due to some Error."); } }
+                                DC.Log_TicketToLog += "<" + TicketNum + "> ";
+                            try { DLT.FileOpener(DC.Log_TicketToLog, DC.Log_TicketCounts, DC.Log_DataCollectionString); }
+                            catch { RTB1.AppendText("\r\nError in the data Logging"); if (!checkBox_SupressWarnings.Checked) { MessageBox.Show("Important-- Log is not recorded due to some Error."); } }
                         }
+                        #endregion keep the log checkbox
 
-                        progressBarUniversal.Value += 10;//9
+                        PBar1.Value += 10;
+                        #endregion Verification
 
-                        //MessageBox.Show("The File is created! The process is Completed.");//cannot supress this message
-                        MBU.MB_TextDisplay("The File is created! The process is Completed.\r\nSuccess, data Logging\r\nVerify all the columns before sending over to the email.");
+                        #region SalesPerson
+                        MBU.MB_TextDisplay(DeclarationClass.NotificationString1);
                         if (!string.Equals(comboBox_SalesPerson.Text, "SalesPerson"))
                         {
-                            //richTextBox_viewer.AppendText("\r\nEmail to: tom@visionmetering.com" + "\r\nCC: " + SalespersonQuiz(comboBox_SalesPerson.Text));
                             MBU.MB_TextAppend("\r\nEmail to: tom@visionmetering.com" + "\r\nCC: " + SalespersonQuiz(comboBox_SalesPerson.Text));
 
                         }
+
+                        #endregion SalesPerson
+
+                        #region datalogging Notification
                         MBU.MB_TextAppend("\r\nSuccess, data Logging.");
                         DialogResult dialogR = MBU.ShowDialog();
 
-                        //richTextBox_viewer.AppendText("\r\nSuccess, data Logging");
+                        if (dialogR == DialogResult.OK || dialogR == DialogResult.Cancel){}
 
-                        if (dialogR == DialogResult.OK || dialogR == DialogResult.Cancel)
-                        {
-
-                            //richTextBox_viewer.AppendText("\r\n" +
-                            //    "\r\nVerify all the columns before sending over to the email." +
-                            //    "\r\n" + CompletePathForXLSXexport + "\r\nTip: you can copy this path\r\n");
-                            progressBarUniversal.Value = progressBarUniversal.Maximum;
-                        }
-                        progressBarUniversal.Value = progressBarUniversal.Maximum;
+                        PBar1.Value = PBar1.Maximum;
+                        #endregion datalogging Notification
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
-                        richTextBox_viewer.AppendText("The dataBase might have encountered an error." +
-                        "Verification needs data." +
-                        "\r\nTry again with correct ticket numbers! " +ex);
+                        RTB1.AppendText(DeclarationClass.NotificationString2+Environment.NewLine + ex);
                     }
-
-                #endregion DataVerificationForUser
-
-                    //checkBox_tab1_Intellicode.Checked = false;
                     richTextBox_FileFormat.Text = string.Empty;
                 }
-
+                #endregion DataVerificationForUser
             }
             else
             {
-                richTextBox_viewer.Text = "The Process is stopped!" +
-                        "\r\nEnter The Data mandatory for the Process to continue." +
-                        "\r\nSee Ticket for more data" +
-                        "\r\nDataBase Name is usually written in handwriting." +
-                        "\r\nSold To in the left top of the Ticket includes Company Name" +
-                        "\r\nNever use Ship To names." +
-                        "\r\nSales Person Codes are coming." +
-                        "\r\nqueries to- vishal@visionmetering.com";
-                progressBarUniversal.Value = progressBarUniversal.Maximum;
+                RTB1.Text = DeclarationClass.ErrorString1;
+                PBar1.Value = PBar1.Maximum;
             }
-            Clipboard.SetText(richTextBox_viewer.Text);
-            #region commented code
-            //RE.DirectoriesExplorer();
-            //EX.XLSExtraction(RE.FileNames, RE.FileDirecrtory, RE.DirNames);
-
-            //    //foreach(string s in RE.DirNames)
-            //    //{
-            //    //    //DisplayText(s, APPEND);
-            //    //    Excel_MS Ex = new Excel_MS(LatestFileSort(), 1);//LatestFileSort()
-            //    //    DisplayText(File1FullPath, APPEND);
-            //    //    Ex.ReadCell(1);
-            //    //}
-            //    //Excel_MS Ex = new Excel_MS(File1FullPath, 1);//LatestFileSort()
-            //    //DisplayText(File1FullPath, APPEND);
-            //    //Ex.ReadCell(1);
-            //    Excel_MS Ex1 = new Excel_MS(File2FullPath, 1);//ReferencefileSort()//changed 
-            //    DisplayText(File2FullPath, APPEND);//File2FullPath
-            //    Ex1.ReadCell(1);
-            //    //XlsCompareToAdd(Ex.Dataset, Ex1.Dataset);
-
-            //    Excel_MS Ex2 = new Excel_MS(File1FullPath, 1);
-            //    Ex2.CheckFortheEmptyCells(ColumnNumberToDeleteFromFile1,ColumnNameToDeleteFromFile1);
-            //    DisplayText("Columns SAFE!", APPEND);
-            //    for (int counter = 0; counter < ColumnNameToDeleteFromFile1.Count; counter++) { DisplayText(ColumnNameToDeleteFromFile1[counter], APPEND); }
-            //    Ex2.DeleteCells(ColumnNumberToDeleteFromFile1, ColumnNameToDeleteFromFile1, File1Name);
-            //    Ex2.AddCells(ColumnNumberToAddFromFile2, ColumnNameToAddFromFile2, File1Name);
-            //    Excel_MS Ex3 = new Excel_MS(@"G:\_ShipmentFiles\vishalModified\" + File1Name, 1);
-            //    Ex3.CleanNamelessColumns(ColumnNumberToDeleteFromFile1);
-            //    //if (ColumnsToKeep != Ex.Dataset.Count)
-            //    //    DisplayText("Good File. Does Not need Modification.",APPEND);
-
-            //    //Ex.DeleteCells();
-            //    //Ex.AddCells(ColumnNumberToAddFromFile2, ColumnNameToAddFromFile2);
-            //    //Ex.AddCells(ColumnNumberToAddFromFile2, ColumnNameToAddFromFile2, File1Name);
-            #endregion commented code
+            Clipboard.SetText(RTB1.Text);
         }
        
         #endregion Tab 1 Start Button
@@ -564,28 +519,14 @@ namespace ExcelReadingApp
                 if (!string.IsNullOrEmpty(comboBox_CompanyName.Text))
                 {
                     comboBox_CompanyName.BackColor = Color.LightGreen;
-                    IamPopUP = true;
-                    Flag_forDisplayOfDatabase = true;
+                    DC.IamPopUP = true;
+                    DC.Flag_forDisplayOfDatabase = true;
                 }
                 else
                     comboBox_CompanyName.BackColor = Color.Red;
             }
             catch { }
-            #region commented code
-                //this.FileNameFromRootDir = string.Empty; this.FilePathOfXML = string.Empty;
-                //this.ExportXlSXPath = string.Empty; RE1.CompanyName = string.Empty; IamPopUP = false;
 
-                //RE1.CompanyName = comboBox_CompanyName.Text;
-                //label_Database.Text = comboBox_CompanyName.Text; label_Database.Visible = true;
-
-                //this.FileNameFromRootDir = RE1.XMLFilePicker(comboBox_CompanyName.Text);
-                //this.FilePathOfXML = RE1.FilePathOfXMLtemp;
-                //this.ExportXlSXPath = RE1.ExportXlSXfilePath;
-
-                //if (!string.IsNullOrEmpty(comboBox_CompanyName.Text))
-                //    MessageBox.Show(comboBox_CompanyName.Text + " - is the Company name currently selected!\r\n"+
-                //        comboBox_DataBaseName.Text+" is the DataBase.");
-                #endregion commented code
         }
         private void button_DataBasenameConfirm_Click(object sender, EventArgs e)
         {
@@ -593,58 +534,15 @@ namespace ExcelReadingApp
             comboBox_DataBaseName.DataSource = RE1.FilenamesForSearch;
             comboBox_DataBaseName.BackColor = Color.Red;
         }
-        #region commented code 
-        //public void DirectoriesRefresh()
-        //{
-        //    RE1.DirectoriesExplorer();//form loads slowly
-        //    QueryTest DBq = new QueryTest();
-        //    DBq.USER_init(comboBox_DataBaseName.Text);
-        //    DataTable dt = DBq.GetDataTables();
-        //    for (int counter = 0; counter < dt.Rows.Count; counter++)
-        //    {
-        //        DatabaseList.Add(dt.Rows[counter][0].ToString());
-        //    }
-        //    button_Refresh.BackColor = Color.LightGreen;
-        //    Flag_searchDirectory = false;
-        //}
-
-        //private void textBox_PickTicketNumber_Click(object sender, EventArgs e) //important
-        //{
-        //    if (Flag_searchDirectory)
-        //    {
-        //        RE1.DirectoriesExplorer();//form loads slowly
-        //        QueryTest DBq = new QueryTest();
-        //        DBq.USER_init(comboBox_DataBaseName.Text);
-        //        DataTable dt = DBq.GetDataTables();
-
-        //        for (int counter = 0; counter < dt.Rows.Count; counter++)
-        //        {
-        //            DatabaseList.Add(dt.Rows[counter][0].ToString());
-        //        }
-        //        //comboBox_DataBaseName.DataSource = DatabaseList;
-        //        Flag_searchDirectory = false;
-        //    }
-        //}
-        #endregion commented code 
+      
         private void button_Refresh_Click(object sender, EventArgs e)
         {
-           if(Flag_searchDirectory)
+           if(DC.Flag_searchDirectory)
             {
                 myBackgroundWorker.RunWorkerAsync(2);
                 button_Refresh.BackColor = Color.LightGreen;
-                Flag_searchDirectory = false; Flag_forDisplayOfDatabase = true;
+                DC.Flag_searchDirectory = false; DC.Flag_forDisplayOfDatabase = true;
             }
-
-            #region Commented Code
-            //RE1.DirectoriesExplorer();//form loads slowly
-            //QueryTest DBq = new QueryTest();
-            ////DBq.USER_init(comboBox_DataBaseName.Text);
-            //DataTable dt = DBq.GetDataTables();
-            //for (int counter = 0; counter < dt.Rows.Count; counter++)
-            //{
-            //    DatabaseList.Add(dt.Rows[counter][0].ToString());
-            //}
-            #endregion Commented Code
         }
 
         private void monthCalendarEnd_Leave(object sender, EventArgs e)
@@ -657,7 +555,7 @@ namespace ExcelReadingApp
             
             if(radioButton_LoraVision.Checked)
             {
-                comboBox_DataBaseName.Text = "LoraVision";
+                comboBox_DataBaseName.Text = "AlsoEnergy2021Vision";
                 if (!string.IsNullOrEmpty(comboBox_DataBaseName.Text))
                     comboBox_DataBaseName.BackColor = Color.LightGreen;
                 else
@@ -665,36 +563,11 @@ namespace ExcelReadingApp
             }
         }
 
-        #region Commented code for Directories
-
-        //DirectoryRefresh DR = new DirectoryRefresh();
-        //DialogResult dialogRE = DR.ShowDialog();
-        //if(dialogRE ==DialogResult.Yes)
-        ////if(DR.Rambo)
-        //{
-        //    RE1.DirectoriesExplorer();//form loads slowly
-        //    DR.PB_increment(20);
-        //    QueryTest DBq = new QueryTest();
-        //    DBq.USER_init(comboBox_DataBaseName.Text);
-        //    DataTable dt = DBq.GetDataTables();
-        //    DR.PB_increment(20);
-        //    for (int counter = 0; counter < dt.Rows.Count; counter++)
-        //    {
-        //        DatabaseList.Add(dt.Rows[counter][0].ToString());
-        //    }
-        //    button_Refresh.BackColor = Color.LightGreen;
-        //    Flag_searchDirectory = false;
-        //    DR.PB_increment(100);
-        //}
-        //DR.Dispose();
-
-        #endregion Commented code for Directories
-
         private void radioButton_Austin2020Vision_CheckedChanged(object sender, EventArgs e)
         {
             if(radioButton_Austin2020Vision.Checked)
             {
-                comboBox_DataBaseName.Text = "Austin2020Vision";
+                comboBox_DataBaseName.Text = "Austin2021Vision";
                 if (!string.IsNullOrEmpty(comboBox_DataBaseName.Text))
                     comboBox_DataBaseName.BackColor = Color.LightGreen;
                 else
@@ -720,39 +593,39 @@ namespace ExcelReadingApp
 
         private void Button_main_MouseEnter(object sender, EventArgs e)
         {
-            if(Flag_forDisplayOfDatabase)
+            if(DC.Flag_forDisplayOfDatabase)
             {
-                this.FileNameFromRootDir = string.Empty; this.FilePathOfXML = string.Empty;
-                this.ExportXlSXPath = string.Empty; RE1.CompanyName = string.Empty; //IamPopUP = false;
+                this.FileNameFromRootDir = string.Empty; this.DC.FilePathOfXML = string.Empty;
+                this.DC.ExportXlSXPath = string.Empty; RE1.CompanyName = string.Empty; //IamPopUP = false;
                 if (!string.IsNullOrEmpty(comboBox_CompanyName.Text))
                     this.FileNameFromRootDir = RE1.XMLFilePicker(comboBox_CompanyName.Text);//XMLFilePicker
                 if (!string.Equals(FileNameFromRootDir, "ERROR SELECTION"))
                 {
-                    this.FilePathOfXML = RE1.FilePathOfXMLtemp;
-                    this.ExportXlSXPath = RE1.ExportXlSXfilePath;
+                    this.DC.FilePathOfXML = RE1.FilePathOfXMLtemp;
+                    this.DC.ExportXlSXPath = RE1.ExportXlSXfilePath;
                     //comboBox_CompanyName.BackColor = Color.LightGreen;
                     RE1.CompanyName = comboBox_CompanyName.Text;
                     label_Database.Text = comboBox_CompanyName.Text; label_Database.Visible = true;
-                    richTextBox_viewer.AppendText("The Company you have selected: " + comboBox_CompanyName.Text+", DB: "+ comboBox_DataBaseName.Text);
+                    RTB1.AppendText("The Company you have selected: " + comboBox_CompanyName.Text+", DB: "+ comboBox_DataBaseName.Text);
 
-                    if (IamPopUP)
+                    if (DC.IamPopUP)
                     {
                         if (!string.IsNullOrEmpty(comboBox_CompanyName.Text) && !checkBox_SupressWarnings.Checked)
                             MessageBox.Show(comboBox_CompanyName.Text + " - is the Company name currently selected!\r\n" +
                                 comboBox_DataBaseName.Text + " - is the DataBase.");
-                        IamPopUP = false;
+                        DC.IamPopUP = false;
                     }
                 }
-                Flag_forDisplayOfDatabase = false;
+                DC.Flag_forDisplayOfDatabase = false;
             }
         }
 
         private void textBox_CustomerPO_MouseClick(object sender, MouseEventArgs e)
         {
-            if(flag_POnumber && !checkBox_SupressWarnings.Checked)
+            if(DC.flag_POnumber && !checkBox_SupressWarnings.Checked)
             {
                 //MessageBox.Show("Important: The xls file naming does not support \"/,<space>\".");
-                flag_POnumber = false;
+                DC.flag_POnumber = false;
             }
         }
 
@@ -769,14 +642,11 @@ namespace ExcelReadingApp
             RE1.CompanyFinder(comboBox_CompanyName.Text);
             comboBox_CompanyName.DataSource = RE1.FilenamesForSearch;
             comboBox_CompanyName.BackColor = Color.Red;
-            Flag_forDisplayOfDatabase = true;
+            DC.Flag_forDisplayOfDatabase = true;
         }
 
         private void button_ForDebug_Click(object sender, EventArgs e)
         {
-            //MessageBox_User MBU = new MessageBox_User();
-            //MBU.MB_TextDisplay("LOL");
-            //DialogResult dialogR = MBU.ShowDialog();
             textBox_PickTicketNumber.Text = "194371";
             comboBox_CompanyName.Text = "Fletcher-Reinhardt";
             comboBox_DataBaseName.Text = "Austin2020Vision";
@@ -796,32 +666,31 @@ namespace ExcelReadingApp
         {
             if (!string.IsNullOrEmpty(textBox_CreationCompanyname.Text) && !string.IsNullOrEmpty(textBox_FolderName.Text))
             {
-                Flag_searchDirectory = true;
+                DC.Flag_searchDirectory = true;
                 FormatModifier FP = new FormatModifier(richTextBox_CreationFormatForXML.Text);
                 FP.FormatParser();
-                FP.XMLCreator(CompanyXMLCreationRootAddress, textBox_CreationCompanyname.Text, textBox_FolderName.Text);
-                Directory.CreateDirectory(@"\\netserver3\DATA\_ShipmentFiles\"+ textBox_FolderName.Text);
-                Directory.CreateDirectory(@"\\netserver3\data\Vishal_ShipmentFiles\"+ textBox_FolderName.Text);
+                FP.XMLCreator(DC.ROOTDIRFORXMLFILES_, textBox_CreationCompanyname.Text, textBox_FolderName.Text);
+                Directory.CreateDirectory(DeclarationClass.SHIPMENTPATH_ + textBox_FolderName.Text);
+                Directory.CreateDirectory(DeclarationClass.VISHALSHIPMENTPATH_ + textBox_FolderName.Text);
 
                 if (checkBox_SupressWarnings.Checked)
                 {
-                    richTextBox_Tab2.Text = "Company has been Successfully Created\r\nYou can process the Pick Ticket For it." +
+                    richTextBox_Tab2.Text = DeclarationClass.NotificationString3 +
                         "\r\n\r\nCompany Name: " + textBox_CreationCompanyname.Text +
                         "\r\nColumns It has created,";
-                    //foreach (string CN in FP.ColumnValue)
-                    //{ richTextBox_Tab2.AppendText("\r\n" + CN); }
                 }
                 else
                 {
                     richTextBox_Tab2.Text = "Company Name: " + textBox_CreationCompanyname.Text +
                   "\r\nColumns It has created,";
-                    //foreach (string CN in FP.ColumnValue)
-                    //{ richTextBox_Tab2.AppendText("\r\n" + CN); }
-                    MessageBox.Show("Company has been Successfully Created\r\nYou can process the Pick Ticket For it.");//can be supressed.
+                    MessageBox.Show(DeclarationClass.NotificationString3);//can be supressed.
                 }
+
+                //refresh the directories here.
                 myBackgroundWorker.RunWorkerAsync(2);
+
                 button_Refresh.BackColor = Color.LightGreen;
-                Flag_searchDirectory = false; Flag_forDisplayOfDatabase = true;
+                DC.Flag_searchDirectory = false; DC.Flag_forDisplayOfDatabase = true;
             }
             else
                 richTextBox_Tab2.Text = "Type all the necessary data required for Creation of Company and Company XML.\r\nTry again";
@@ -865,14 +734,16 @@ namespace ExcelReadingApp
         {
             radioButton_Austin2020Vision.Checked = false;
             radioButton_LoraVision.Checked = false;
+
             textBox_PickTicketNumber.Text = string.Empty;
             comboBox_DataBaseName.Text = string.Empty;
             textBox_CustomerPO.Text = string.Empty;
             comboBox_CompanyName.Text = string.Empty;
-            richTextBox_FileFormat.Clear();
-            richTextBox_viewer.Clear();
             label_TicketNumberDisplay.Text = string.Empty;
             label_Database.Text = string.Empty;
+
+            richTextBox_FileFormat.Clear();
+            RTB1.Clear();
 
             comboBox_CompanyName.BackColor = Color.Red;
             comboBox_DataBaseName.BackColor = Color.Red;
@@ -890,9 +761,6 @@ namespace ExcelReadingApp
         {
             FormatModifier FM = new FormatModifier(richTextBox_FileFormat.Text); XMLParser xm = new XMLParser();
             FM.FormatParser();
-            //richTextBox_viewer.AppendText("Columns you have created, Please verify before generating the File!");
-            //foreach (string Column in FM.ColumnValue)
-            //    richTextBox_viewer.AppendText("\r\n"+Column);
         }
 
         private void comboBox_tab2_Typer_DropDownClosed(object sender, EventArgs e)
@@ -915,17 +783,7 @@ namespace ExcelReadingApp
 
         private void checkBox_tab1_deleteEmptyCinXLS_CheckStateChanged(object sender, EventArgs e)
         {
-            //if (checkBox_tab1_deleteEmptyCinXLS.Checked)
-            //{
-            //    checkBox_tab1_deleteEmptyCinXLS.ForeColor = Color.Red;
-            //}
-            //if (!checkBox_tab1_deleteEmptyCinXLS.Checked)
-            //{
-            //    checkBox_tab1_deleteEmptyCinXLS.ForeColor = Color.Green;
-            //}
-
             checkBox_tab1_deleteEmptyCinXLS.ForeColor = checkBox_tab1_deleteEmptyCinXLS.Checked ? Color.Red : Color.Green;
-
         }
 
         private void textBox_PickTicketNumber_KeyPress(object sender, KeyPressEventArgs e)
@@ -945,64 +803,52 @@ namespace ExcelReadingApp
         {
             try
             {
-                progressBarUniversal.Maximum = 100; progressBarUniversal.Value = 0;
-                //Tab4_generaltestQuery(string TicketNumberString , string Database)
+                PBar1.Maximum = 100; PBar1.Value = 0;
                 labeltab5_1.Visible = true;
                 labeltab5_1.Text = comboBox_tab5_DBName.Text;
-                //comboBox_tab5_DBName.Text = string.Empty;
                 QueryTest QT = new QueryTest();
                 QT.USER_init(comboBox_tab5_DBName.Text);
 
-                progressBarUniversal.Value += 10;
-                databaseType = comboBox_tab5_DBName.Text.ToUpper().EndsWith("VISION") ? "dbo" : "power";
-                dataGridView1.DataSource = QT.Tab5_AllDataQuery(textBox_tab5_PickTicket.Text, comboBox_tab5_DBName.Text, databaseType);
+                PBar1.Value += 10;
+                DC.databaseType = comboBox_tab5_DBName.Text.ToUpper().EndsWith("VISION") ? "dbo" : "power";
+                dataGridView1.DataSource = QT.Tab5_AllDataQuery(textBox_tab5_PickTicket.Text, comboBox_tab5_DBName.Text, DC.databaseType);
                 int ColumnCount = dataGridView1.ColumnCount;
-                int tempCounter = 0;
-                //while (tempCounter == ColumnCount)
-                //{
-                //    if (string.IsNullOrEmpty(dataGridView1.Rows[tempCounter].Cells.ToString()))
-                //    {
-                //        dataGridView1.Columns.RemoveAt(tempCounter);
-                //        ColumnCount--;
-                //    }
-                //    tempCounter++; progressBarUniversal.Value += 1;
-                //}
             }
             catch
             {
-                MessageBox.Show("Error Recalling the Data, Someting is missing!"); progressBarUniversal.Value = progressBarUniversal.Maximum;
+                MessageBox.Show("Error Recalling the Data, Someting is missing!"); PBar1.Value = PBar1.Maximum;
             }
-            progressBarUniversal.Value = progressBarUniversal.Maximum;
+            PBar1.Value = PBar1.Maximum;
         }
 
         private void button_t6_Start_Click(object sender, EventArgs e)
         {
             #region ProgressBar
-            progressBarUniversal.Minimum = 0; progressBarUniversal.Maximum = 200; progressBarUniversal.Value = 0;
-            progressBarUniversal.Value += 50; label32.Visible = true;
+            PBar1.Minimum = 0; PBar1.Maximum = 200; PBar1.Value = 0;
+            PBar1.Value += 50; label32.Visible = true;
             #endregion ProgressBar
 
             string XMLFormat = ".xml", XLSXFormat = ".xlsx", CSVFormat = ".csv", TEXTformat = ".txt";
 
             QueryTest QT = new QueryTest();//database query init
 
-            databaseType = comboBox_t6_DBName.Text.ToUpper().EndsWith("VISION") ? "dbo" : "power";
+            DC.databaseType = comboBox_t6_DBName.Text.ToUpper().EndsWith("VISION") ? "dbo" : "power";
 
             string FileNameExtension = comboBox_t6_CompanyName.Text + "_PT" + textbox_t6_ticket.Text + "_PO" +
                            textbox_t6_PO.Text + "_" + GetCurrentDateAndTime(true);
 
-            string CompletePathForExport = OriginalShipmentPath + comboBox_t6_CompanyName.Text+ @"\" + FileNameExtension;
+            string CompletePathForExport = DC.ORIGINALSHIPMENTPATH_ + comboBox_t6_CompanyName.Text+ @"\" + FileNameExtension;
 
             richTextBox_T6.Text = "File path created.\r\n";
 
-            progressBarUniversal.Value += 20;
+            PBar1.Value += 20;
 
             QT.USER_init(comboBox_t6_DBName.Text); //dataquery user init
 
-            QT.TestQuerySpcl(Spcl_DatDBColumnNames, Spcl_FileColumnNames, Spcl_ValueForColumnStatics, Spcl_MergeEvents, textbox_t6_ticket.Text, databaseType , WhatToFind.Text, textbox_t6_PO.Text);
+            QT.TestQuerySpcl(Spcl_DatDBColumnNames, Spcl_FileColumnNames, Spcl_ValueForColumnStatics, Spcl_MergeEvents, textbox_t6_ticket.Text, DC.databaseType , WhatToFind.Text, textbox_t6_PO.Text);
             this.Spcl_ArrayMessageFromDatabase = QT.ArrayMessageFromDatabase;
 
-            progressBarUniversal.Value += 20;
+            PBar1.Value += 20;
             richTextBox_T6.AppendText("Datasbase access complete.\r\n");
             ExcelProcessor EXS = new ExcelProcessor();
             /*
@@ -1037,21 +883,21 @@ namespace ExcelReadingApp
                 EXS.WriteXMLSpecial(Spcl_FileColumnNames, QT.RowCounter, Spcl_ArrayMessageFromDatabase,Place1,Place2,Place3,Place4, textBox_DeviceType.Text, CompletePathForExport);
             }
             richTextBox_T6.AppendText("\r\nWriting is Done");
-            progressBarUniversal.Value += 20;
+            PBar1.Value += 20;
 
             MBU.MB_TextDisplay("The File is created.\r\n"+ CompletePathForExport); button_t6_browse.BackColor = Color.Transparent;
-            progressBarUniversal.Value = progressBarUniversal.Maximum;
+            PBar1.Value = PBar1.Maximum;
 
             DialogResult dialogR = MBU.ShowDialog();
 
             DataLogging DLT = new DataLogging();
             try 
             {
-                Log_DataCollectionString = richTextBox_viewer.Text;
-                
-                Log_TicketToLog += "<" + textbox_t6_ticket.Text + "> ";
+                DC.Log_DataCollectionString = RTB1.Text;
 
-                try { DLT.FileOpener(Log_TicketToLog, "S", "-------------------------------------------------"); }
+                DC.Log_TicketToLog += "<" + textbox_t6_ticket.Text + "> ";
+
+                try { DLT.FileOpener(DC.Log_TicketToLog, "S", "-------------------------------------------------"); }
                 catch { richTextBox_T6.AppendText("\r\nError in the data Logging"); if (!checkBox_SupressWarnings.Checked) { MessageBox.Show("Important-- Log is not recorded due to some Error."); } }
 
             }
@@ -1066,7 +912,7 @@ namespace ExcelReadingApp
             RE1.CompanyFinder(comboBox_t6_CompanyName.Text);
             comboBox_t6_CompanyName.DataSource = RE1.FilenamesForSearch;
             comboBox_t6_CompanyName.BackColor = Color.Red;
-            Flag_forDisplayOfDatabase = true;
+            DC.Flag_forDisplayOfDatabase = true;
         }
 
         private void comboBox_t6_CompanyName_DropDownClosed(object sender, EventArgs e)
@@ -1077,7 +923,7 @@ namespace ExcelReadingApp
                 if (!string.IsNullOrEmpty(comboBox_t6_CompanyName.Text))
                 {
                     comboBox_t6_CompanyName.BackColor = Color.LightGreen;
-                    Flag_forDisplayOfDatabase = true;
+                    DC.Flag_forDisplayOfDatabase = true;
                 }
                 else
                     comboBox_t6_CompanyName.BackColor = Color.Red;
@@ -1094,11 +940,6 @@ namespace ExcelReadingApp
 
         private void comboBox_t6_DBName_DropDownClosed(object sender, EventArgs e)
         {
-            //if (!string.IsNullOrEmpty(comboBox_t6_DBName.Text))
-            //    comboBox_t6_DBName.BackColor = Color.LightGreen;
-            //else
-            //    comboBox_t6_DBName.BackColor = Color.Red;
-
             comboBox_t6_DBName.BackColor = string.IsNullOrEmpty(comboBox_t6_DBName.Text) ? Color.Red : Color.LightGreen;
         }
 
@@ -1151,19 +992,17 @@ namespace ExcelReadingApp
         {
             try
             {
-                progressBarUniversal.Maximum = 100; progressBarUniversal.Value = 0;
-                //Tab4_generaltestQuery(string TicketNumberString , string Database)
+                PBar1.Maximum = 100; PBar1.Value = 0;
                 labeltab5_1.Visible = true;
                 labeltab5_1.Text = comboBox_tab5_DBName.Text;
-                //comboBox_tab5_DBName.Text = string.Empty;
                 QueryTest QT = new QueryTest();
                 QT.USER_init(comboBox_tab5_DBName.Text);
 
-                progressBarUniversal.Value += 10;
+                PBar1.Value += 10;
 
-                databaseType = comboBox_tab5_DBName.Text.ToUpper().EndsWith("VISION") ? "dbo" : "power";
+                DC.databaseType = comboBox_tab5_DBName.Text.ToUpper().EndsWith("VISION") ? "dbo" : "power";
 
-                AryOfColumns = QT.Tab5_ColumnNameQuery(textBox_tab5_PickTicket.Text, comboBox_tab5_DBName.Text, "street" ,databaseType);
+                AryOfColumns = QT.Tab5_ColumnNameQuery(textBox_tab5_PickTicket.Text, comboBox_tab5_DBName.Text, "street" , DC.databaseType);
                 richTextBox_5.Clear();
                 foreach(string ColumnHead in AryOfColumns)
                 {
@@ -1172,9 +1011,9 @@ namespace ExcelReadingApp
             }
             catch
             {
-                MessageBox.Show("Error Recalling the Data, Someting is missing!"); progressBarUniversal.Value = progressBarUniversal.Maximum;
+                MessageBox.Show("Error Recalling the Data, Someting is missing!"); PBar1.Value = PBar1.Maximum;
             }
-            progressBarUniversal.Value = progressBarUniversal.Maximum;
+            PBar1.Value = PBar1.Maximum;
             if(AryOfColumns.Count()>1)
             {
                 textBoxT5_SearchTB.Visible = true;
@@ -1210,31 +1049,45 @@ namespace ExcelReadingApp
                     }
                 }
             }
-            catch
-            {
+            catch{}
+        }
 
+        private void button8_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
+            {
+                try
+                {
+                    openFileDialog1.InitialDirectory = DC.folderNameForOutputFile;//@"\\netserver3\DATA";
+                    openFileDialog1.Filter = "xls files (*.xls)|*.xls";//|All files (*.*)|*.*
+                    openFileDialog1.FilterIndex = 2;
+                    openFileDialog1.RestoreDirectory = true;
+                    if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                    { }
+                }
+                catch { }
             }
         }
 
-        private void textBox_PickTicketNumber_TextChanged(object sender, EventArgs e)
+        private void button7_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void comboBox_t6_CompanyName_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            try
+            {
+                Clipboard.Clear();
+                Clipboard.SetText(DC.FileNameExtension_Global);
+            }
+            catch { }
         }
 
         private void button_tab5_GetDB_Click(object sender, EventArgs e)
         {
-            richTextBox_5.Clear(); progressBarUniversal.Value = 0; progressBarUniversal.Maximum = DatabaseList.Count;
+            richTextBox_5.Clear(); PBar1.Value = 0; PBar1.Maximum = DatabaseList.Count;
             QueryTest SQL = new QueryTest();
             foreach(string DBelement in DatabaseList)
             {
                 if(DBelement.ToUpper().EndsWith("VISION"))
                 {
-                    progressBarUniversal.Value += 1;
+                    PBar1.Value += 1;
                     string tempBatchID = SQL.FindTheDBwithMeterID(textBox_tab5_TicketToSearch.Text, DBelement, comboBox_DBOtype.Text);
                     if (!string.Equals(tempBatchID, "NoData"))
                     {
@@ -1244,7 +1097,7 @@ namespace ExcelReadingApp
                     }
                 }
             }
-            progressBarUniversal.Value = progressBarUniversal.Maximum;
+            PBar1.Value = PBar1.Maximum;
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -1291,19 +1144,6 @@ namespace ExcelReadingApp
                 {
                     richTextBox_T6.AppendText("Dominion needs xml format and Device type, Please mention before generating output!\r\nXML as output");
                 }
-
-
-                //ExcelProcessor EXLSPCL = new ExcelProcessor();
-                //EXLSPCL.PreprocessExcelSpcl(textBox_t6_excellFilePath.Text);
-                //this.Spcl_DatDBColumnNames = EXLSPCL.DatDBColumnNames;
-                //this.Spcl_FileColumnNames = EXLSPCL.FileColumnNames;
-                //this.Spcl_ValueForColumnStatics = EXLSPCL.ValueForColumnStatics;
-                //this.Spcl_MergeEvents = EXLSPCL.MergeEvents;
-
-                //this.Spcl_DatDBColumnNames.RemoveAt(0);
-                //this.Spcl_FileColumnNames.RemoveAt(0);
-                //this.Spcl_ValueForColumnStatics.RemoveAt(0);
-                //this.Spcl_MergeEvents.RemoveAt(0);
             }
         }
 
@@ -1316,58 +1156,34 @@ namespace ExcelReadingApp
                 return;
 
             if (!char.IsControl(ch) && (!char.IsNumber(ch)) && !char.IsLetterOrDigit(ch) &&
-                (ch != '_')) 
-                // && !char.IsControl(ch) &&  IsLetterOrDigit(ch))
-                //(ch != '@') &&
-                //(ch != '#') &&
-                //(ch != '$') &&
-                //(ch != '%') &&
-                //(ch != '^') &&
-                //(ch != '&') &&
-                //(ch != '*') &&
-                //(ch != '(') &&
-                //(ch != ')') &&
-                //(ch != '_') &&
-                //(ch != '-') &&
-                //(ch != '+') &&
-                //(ch != '=') &&
-                //(ch != '[') &&
-                //(ch != ']') &&
-                //(ch != '{') &&
-                //(ch != '}') &&
-                //(ch != '|') &&
-                //(ch != '[') &&
-                //(ch != ']') &&
-                //(ch != '{') &&
-                //(ch != '}') &&
-                //(ch != ')')
+                (ch != '_'))
                 e.Handled = true;
         }
 
         private void comboBox_Tab2_CompanyName_DropDownClosed(object sender, EventArgs e)
         {
             textBox_CreationCompanyname.Text = comboBox_Tab2_CompanyName.Text;
-            Flag_InsertNFHere = false;
+            DC.Flag_InsertNFHere = false;
         }
 
         private void button_PasteCompanyName_Click(object sender, EventArgs e)
         {
-            if(!Flag_InsertNFHere)
+            if(!DC.Flag_InsertNFHere)
             {
-                textBox_FolderName.Text = textBox_CreationCompanyname.Text; Flag_InsertNFHere = true;
+                textBox_FolderName.Text = textBox_CreationCompanyname.Text; DC.Flag_InsertNFHere = true;
             }
             else
             {
-                textBox_FolderName.Text = textBox_CreationCompanyname.Text + "_NF"; Flag_InsertNFHere = true;
+                textBox_FolderName.Text = textBox_CreationCompanyname.Text + "_NF"; DC.Flag_InsertNFHere = true;
             }
         }
 
         private void textBox_PickTicketNumber_Click(object sender, EventArgs e)
         {
-            if(Flag_searchDirectory)
+            if(DC.Flag_searchDirectory)
             {
                 myBackgroundWorker.RunWorkerAsync(2);
-                Flag_searchDirectory = false;
+                DC.Flag_searchDirectory = false;
             }
         }
         
@@ -1393,17 +1209,8 @@ namespace ExcelReadingApp
                         "\r\nThe Process is started!";
                         Button_main.Visible = false;
                         myBackgroundWorkerTab3.RunWorkerAsync(2);
-                        Flag_searchDirectory = true;
+                        DC.Flag_searchDirectory = true;
                     }
-                    //if (!string.IsNullOrEmpty(textBox_FolderPath.Text) && !string.IsNullOrEmpty(textBox_StartDate.Text))
-                    //{
-                    //    richTextBox_TAB3.Text = "The Credentials are Correct." +
-                    //    "\r\nThe Process is started!";
-                    //    Flag_searchDirectoryBecauseFoldersUpdated = true;//flag to update the Directory as you type the ticket number
-                    //    RootDirectoriesExplorer RE0 = new RootDirectoriesExplorer(); ExcelProcessor EX0 = new ExcelProcessor();
-                    //    RE0.FileExplorerForXML(textBox_FolderPath.Text, StartDate, EndDate);
-                    //    EX0.ExcelExtraction(RE0.FileNames, RE0.FileDirecrtory, RE0.DirNames, textBox_FolderPath.Text, ParentFolderToStickTo);
-                    //}
                     else
                     {
                         richTextBox_TAB3.Text = "The Credentials are Correct." +
@@ -1457,11 +1264,10 @@ namespace ExcelReadingApp
             {
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    XMLMakerPath = openFileDialog1.SelectedPath;
-                    textBox_FolderPath.Text = XMLMakerPath;
+                    DC.XMLMakerPath = openFileDialog1.SelectedPath;
+                    textBox_FolderPath.Text = DC.XMLMakerPath;
                 }
             }
-            //richTextBox1.Text = "Production File is selected!";
         }
         #endregion tab 3
 
@@ -1471,80 +1277,80 @@ namespace ExcelReadingApp
         {
             richTextBox_tab4.Clear();
             textBox_tab4_month.Text = monthCalendar_tab4.SelectionStart.ToString("MMMM dd yyyy");
-            YearForSearch = monthCalendar_tab4.SelectionStart.ToString("yyyy");
-            Search_TicketNumber = textBox_tab4_SearchTicket.Text;
+            DC.YearForSearch = monthCalendar_tab4.SelectionStart.ToString("yyyy");
+            DC.Search_TicketNumber = textBox_tab4_SearchTicket.Text;
             switch (int.Parse(monthCalendar_tab4.SelectionStart.ToString("MM")))
             {
                 case 01:
-                    month_T = "January";
-                    month_Tminus1 = "December";
-                    month_Tplus1 = "February";
+                    DC.month_T = "January";
+                    DC.month_Tminus1 = "December";
+                    DC.month_Tplus1 = "February";
                     break;
 
                 case 02:
-                    month_T = "February";
-                    month_Tminus1 = "January";
-                    month_Tplus1 = "March";
+                    DC.month_T = "February";
+                    DC.month_Tminus1 = "January";
+                    DC.month_Tplus1 = "March";
                     break;
 
                 case 03:
-                    month_T = "March";
-                    month_Tminus1 = "February";
-                    month_Tplus1 = "April";
+                    DC.month_T = "March";
+                    DC.month_Tminus1 = "February";
+                    DC.month_Tplus1 = "April";
                     break;
 
                 case 04:
-                    month_T = "April";
-                    month_Tminus1 = "March";
-                    month_Tplus1 = "May";
+                    DC.month_T = "April";
+                    DC.month_Tminus1 = "March";
+                    DC.month_Tplus1 = "May";
                     break;
 
                 case 05:
-                    month_T = "May";
-                    month_Tminus1 = "April";
-                    month_Tplus1 = "June";
+                    DC.month_T = "May";
+                    DC.month_Tminus1 = "April";
+                    DC.month_Tplus1 = "June";
                     break;
 
                 case 06:
-                    month_T = "June";
-                    month_Tminus1 = "May";
-                    month_Tplus1 = "July";
+                    DC.month_T = "June";
+                    DC.month_Tminus1 = "May";
+                    DC.month_Tplus1 = "July";
                     break;
 
                 case 07:
-                    month_T = "July";
-                    month_Tminus1 = "June";
-                    month_Tplus1 = "August";
+                    DC.month_T = "July";
+                    DC.month_Tminus1 = "June";
+                    DC.month_Tplus1 = "August";
                     break;
 
                 case 08:
-                    month_T = "August";
-                    month_Tminus1 = "July";
-                    month_Tplus1 = "September";
+                    DC.month_T = "August";
+                    DC.month_Tminus1 = "July";
+                    DC.month_Tplus1 = "September";
                     break;
 
                 case 09:
-                    month_T = "September";
-                    month_Tminus1 = "August";
-                    month_Tplus1 = "October";
+                    DC.month_T = "September";
+                    DC.month_Tminus1 = "August";
+                    DC.month_Tplus1 = "October";
                     break;
 
                 case 10:
-                    month_T = "October";
-                    month_Tminus1 = "September";
-                    month_Tplus1 = "November";
+                    DC.month_T = "October";
+                    DC.month_Tminus1 = "September";
+                    DC.month_Tplus1 = "November";
                     break;
 
                 case 11:
-                    month_T = "November";
-                    month_Tminus1 = "October";
-                    month_Tplus1 = "December";
+                    DC.month_T = "November";
+                    DC.month_Tminus1 = "October";
+                    DC.month_Tplus1 = "December";
                     break;
 
                 case 12:
-                    month_T = "December";
-                    month_Tminus1 = "November";
-                    month_Tplus1 = "January";
+                    DC.month_T = "December";
+                    DC.month_Tminus1 = "November";
+                    DC.month_Tplus1 = "January";
                     break;
             }
         }
@@ -1568,8 +1374,9 @@ namespace ExcelReadingApp
 
                 string TempString = FormatString.Replace(", ", ",");
                 TempString = TempString.Replace("\n", string.Empty); TempString = FormatString.Replace(" , ", ","); TempString = FormatString.Replace(" ,", ",");
+                TempString = TempString.Trim(',', '.');
                 int LenghtOfTempString = TempString.Length;
-                //string QueryFormat = "(((dbo.Meter.Batch)='" + batch + "'))"";
+
                 while (LocalFlag_ForLoop)
                 {
                     try
@@ -1584,7 +1391,7 @@ namespace ExcelReadingApp
                                 TicketNumberIndividual.Add(TempString);
                                 break;
                             }
-                        }//ColumnValue.Add(TempString)
+                        }
                         catch { StopIndex = TempString.Length; LocalFlag_ForLoop = false; }
 
                         TicketsListForDataQuerySQL.Add("(((" + dbo_type + ".Meter.Batch)='" + TempString.Substring(StartIndex, StopIndex) + "'))");
@@ -1597,14 +1404,11 @@ namespace ExcelReadingApp
                     {
                         if(!checkBox_SupressWarnings.Checked)
                             MessageBox.Show("Error in the formatParser ticket function\r\nStopIndex < 0 can be a error\r\n" + ex);
-                        //Flag_UseXMLLoadDataFun = true;
                     }
                 }
-                //Flag_UseXMLLoadDataFun = false;//setting the flag to false, as we dont need to set the format any more.
             }
             else
             {
-                //TicketsListForDataQuerySQL.Add("(((dbo.Meter.Batch)='" + FormatString + "'))");
                 TicketsListForDataQuerySQL.Add("((("+ dbo_type + ".Meter.Batch)='" + FormatString + "'))");
                 TicketNumberIndividual.Add(FormatString);
             }
@@ -1684,20 +1488,20 @@ namespace ExcelReadingApp
             button_Refresh.BackColor = Color.LightGreen;
             RE1.DirectoriesExplorer();//form loads slowly
             worker.ReportProgress(20);
-            Flag_searchDirectory = false;
+            DC.Flag_searchDirectory = false;
            
         }
 
         private void myBackgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.progressBarUniversal.Value = this.progressBarUniversal.Maximum; button_Refresh.Visible = true; //button invisible for a while
+            this.PBar1.Value = this.PBar1.Maximum; button_Refresh.Visible = true; //button invisible for a while
         }
 
         private void myBackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            try { this.progressBarUniversal.Value = e.ProgressPercentage; }
-            catch { this.progressBarUniversal.Refresh(); }
-            this.progressBarUniversal.Refresh();
+            try { this.PBar1.Value = e.ProgressPercentage; }
+            catch { this.PBar1.Refresh(); }
+            this.PBar1.Refresh();
         }
         #endregion #region myBackgroundWorker
 
@@ -1709,26 +1513,26 @@ namespace ExcelReadingApp
             if (!string.IsNullOrEmpty(textBox_FolderPath.Text) && !string.IsNullOrEmpty(textBox_StartDate.Text))
             {
                 worker1.ReportProgress(20);
-                Flag_searchDirectory = true;//flag to update the Directory as you type the ticket number
+                DC.Flag_searchDirectory = true;//flag to update the Directory as you type the ticket number
                 RootDirectoriesExplorer RE0 = new RootDirectoriesExplorer(); ExcelProcessor EX0 = new ExcelProcessor();
                 RE0.FileExplorerForXML(textBox_FolderPath.Text, StartDate, EndDate);
-                counterForFileGeneratedInXml = EX0.ExcelExtraction(RE0.FileNames, RE0.FileDirecrtory, RE0.DirNames, textBox_FolderPath.Text, ParentFolderToStickTo);
+                counterForFileGeneratedInXml = EX0.ExcelExtraction(RE0.FileNames, RE0.FileDirecrtory, RE0.DirNames, textBox_FolderPath.Text, DC.PARENTFOLDERTOSTICKTO_);
                 worker1.ReportProgress(20);
             }
         }
 
         private void myBackgroundWorkerTab3_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.progressBarUniversal.Value = this.progressBarUniversal.Maximum;
+            this.PBar1.Value = this.PBar1.Maximum;
             richTextBox_TAB3.AppendText("\r\n"+ counterForFileGeneratedInXml +"-- Files are exported."); Button_main.Visible = true;
         }
 
         private void myBackgroundWorkerTab3_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            try { this.progressBarUniversal.Value = e.ProgressPercentage; }
-            catch { this.progressBarUniversal.Refresh(); }
+            try { this.PBar1.Value = e.ProgressPercentage; }
+            catch { this.PBar1.Refresh(); }
             richTextBox_TAB3.AppendText("\r\nprogress is going on!");
-            this.progressBarUniversal.Refresh();
+            this.PBar1.Refresh();
         }
         #endregion myBackgroundWorkerTab3
 
@@ -1750,51 +1554,51 @@ namespace ExcelReadingApp
                 {
                     if (counter == 1)
                     {
-                        month = month_T;
+                        month = DC.month_T;
                     }
 
                     if (counter == 2)
                     {
-                        month = month_Tminus1;
+                        month = DC.month_Tminus1;
                         if (month.ToUpper().Contains("DEC"))
                         {
-                            YearForSearch = (int.Parse(YearForSearch) - 1).ToString();
+                            DC.YearForSearch = (int.Parse(DC.YearForSearch) - 1).ToString();
                         }
                     }
                     if (counter == 3)
                     {
-                        month = month_Tplus1;
+                        month = DC.month_Tplus1;
                         if (month.ToUpper().Contains("JAN"))
                         {
-                            YearForSearch = (int.Parse(YearForSearch) + 1).ToString();
+                            DC.YearForSearch = (int.Parse(DC.YearForSearch) + 1).ToString();
                         }
                     }
 
 
-                    string tempPATH = "\\\\netserver3\\data\\Log_Tickets_all\\TicketLog" + month + YearForSearch + ".txt";
+                    string tempPATH = "\\\\netserver3\\data\\Log_Tickets_all\\TicketLog" + month + DC.YearForSearch + ".txt";
                     if (File.Exists(tempPATH))
                     {
-                        String_SearchDataTab4 = File.ReadAllText(tempPATH);
+                        DC.String_SearchDataTab4 = File.ReadAllText(tempPATH);
                         //string DemoTicketNumber = "<Ticket> <" + textBox_tab4_SearchTicket.Text + ">  </Ticket>";
                         string DemoTicketNumber = "<" + textBox_tab4_SearchTicket.Text + ">";
-                        bool demo = String_SearchDataTab4.Contains(DemoTicketNumber);//<Ticket> 193416 </Ticket>
+                        bool demo = DC.String_SearchDataTab4.Contains(DemoTicketNumber);//<Ticket> 193416 </Ticket>
                         string RemainingString;
                         if (demo)
                         {
                             do
                             {
-                                
-                                String_SearchDataTab4 = String_SearchDataTab4.Substring(String_SearchDataTab4.IndexOf(DemoTicketNumber));
-                                Dte[ArrayCount] = String_SearchDataTab4.Substring(String_SearchDataTab4.IndexOf("<Date>") + 6, 12);//11/03/2020
-                                RemainingString = String_SearchDataTab4.Substring(DemoTicketNumber.Length);
-                                int demoint = String_SearchDataTab4.IndexOf("</Log>");
-                                String_SearchDataTab4 = String_SearchDataTab4.Substring(String_SearchDataTab4.IndexOf("<Log>"));//, String_SearchDataTab4.IndexOf("</Log>"));
-                                demoint = String_SearchDataTab4.IndexOf("</Log>");
-                                String_SearchDataTab4 = String_SearchDataTab4.Substring(5, String_SearchDataTab4.IndexOf("</Log>") - 5);
-                                SearchDataTab4.Add(String_SearchDataTab4);
+
+                                DC.String_SearchDataTab4 = DC.String_SearchDataTab4.Substring(DC.String_SearchDataTab4.IndexOf(DemoTicketNumber));
+                                Dte[ArrayCount] = DC.String_SearchDataTab4.Substring(DC.String_SearchDataTab4.IndexOf("<Date>") + 6, 12);//11/03/2020
+                                RemainingString = DC.String_SearchDataTab4.Substring(DemoTicketNumber.Length);
+                                int demoint = DC.String_SearchDataTab4.IndexOf("</Log>");
+                                DC.String_SearchDataTab4 = DC.String_SearchDataTab4.Substring(DC.String_SearchDataTab4.IndexOf("<Log>"));//, String_SearchDataTab4.IndexOf("</Log>"));
+                                demoint = DC.String_SearchDataTab4.IndexOf("</Log>");
+                                DC.String_SearchDataTab4 = DC.String_SearchDataTab4.Substring(5, DC.String_SearchDataTab4.IndexOf("</Log>") - 5);
+                                SearchDataTab4.Add(DC.String_SearchDataTab4);
                                 worker4.ReportProgress(10);
-                                String_SearchDataTab4 = string.Empty;
-                                String_SearchDataTab4 = RemainingString;
+                                DC.String_SearchDataTab4 = string.Empty;
+                                DC.String_SearchDataTab4 = RemainingString;
                                 ArrayCount++;
                             }
                             while (RemainingString.Contains("<Ticket> <" + textBox_tab4_SearchTicket.Text + ">  </Ticket>"));
@@ -1819,25 +1623,25 @@ namespace ExcelReadingApp
                     {
                         if (File.Exists(dir))
                         {
-                            String_SearchDataTab4 = File.ReadAllText(dir);
+                            DC.String_SearchDataTab4 = File.ReadAllText(dir);
                             //string DemoTicketNumber = "<Ticket> <" + textBox_tab4_SearchTicket.Text + ">  </Ticket>";
                             string DemoTicketNumber = "<" + textBox_tab4_SearchTicket.Text + ">";
-                            bool demo = String_SearchDataTab4.Contains(DemoTicketNumber);//<Ticket> 193416 </Ticket>
+                            bool demo = DC.String_SearchDataTab4.Contains(DemoTicketNumber);//<Ticket> 193416 </Ticket>
                             string RemainingString;
                             if (demo)
                             {
                                 do
                                 {
-                                    String_SearchDataTab4 = String_SearchDataTab4.Substring(String_SearchDataTab4.IndexOf(DemoTicketNumber));
-                                    Dte[ArrayCount] = String_SearchDataTab4.Substring(String_SearchDataTab4.IndexOf("<Date>") + 6, 12);//11/03/2020
-                                    RemainingString = String_SearchDataTab4.Substring(DemoTicketNumber.Length);
-                                    int demoint = String_SearchDataTab4.IndexOf("</Log>");
-                                    String_SearchDataTab4 = String_SearchDataTab4.Substring(String_SearchDataTab4.IndexOf("<Log>"));//, String_SearchDataTab4.IndexOf("</Log>"));
-                                    demoint = String_SearchDataTab4.IndexOf("</Log>");
-                                    String_SearchDataTab4 = String_SearchDataTab4.Substring(5, String_SearchDataTab4.IndexOf("</Log>") - 5);
-                                    SearchDataTab4.Add(String_SearchDataTab4);
-                                    String_SearchDataTab4 = string.Empty;
-                                    String_SearchDataTab4 = RemainingString;
+                                    DC.String_SearchDataTab4 = DC.String_SearchDataTab4.Substring(DC.String_SearchDataTab4.IndexOf(DemoTicketNumber));
+                                    Dte[ArrayCount] = DC.String_SearchDataTab4.Substring(DC.String_SearchDataTab4.IndexOf("<Date>") + 6, 12);//11/03/2020
+                                    RemainingString = DC.String_SearchDataTab4.Substring(DemoTicketNumber.Length);
+                                    int demoint = DC.String_SearchDataTab4.IndexOf("</Log>");
+                                    DC.String_SearchDataTab4 = DC.String_SearchDataTab4.Substring(DC.String_SearchDataTab4.IndexOf("<Log>"));//, String_SearchDataTab4.IndexOf("</Log>"));
+                                    demoint = DC.String_SearchDataTab4.IndexOf("</Log>");
+                                    DC.String_SearchDataTab4 = DC.String_SearchDataTab4.Substring(5, DC.String_SearchDataTab4.IndexOf("</Log>") - 5);
+                                    SearchDataTab4.Add(DC.String_SearchDataTab4);
+                                    DC.String_SearchDataTab4 = string.Empty;
+                                    DC.String_SearchDataTab4 = RemainingString;
                                     ArrayCount++;
                                 }
                                 while (RemainingString.Contains("<Ticket> <" + textBox_tab4_SearchTicket.Text + ">  </Ticket>"));
@@ -1871,7 +1675,7 @@ namespace ExcelReadingApp
             {
                 richTextBox_tab4.Text = "The search was unsuccessful! try Different ticket." +
                     "\r\nPossiblity of logging a wrong ticket is almost 0, Check for typo." +
-                    "\r\nMonths searched for File - " + month_Tminus1 + ", " + month_T + ", " + month_Tplus1;
+                    "\r\nMonths searched for File - " + DC.month_Tminus1 + ", " + DC.month_T + ", " + DC.month_Tplus1;
             }
             SearchDataTab4.Clear();
         }

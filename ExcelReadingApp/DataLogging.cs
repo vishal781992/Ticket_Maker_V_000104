@@ -17,10 +17,9 @@ namespace ExcelReadingApp
             string month = Month.ToString("MMMM");
             string Year = Month.ToString("yyyy");
             string Date = Month.ToString("MM/dd/yyyy");
-            if(File.Exists(@"\\netserver3\Data\Log_Tickets_all\TicketLog"+month+Year+".txt"))
+            if(File.Exists(DeclarationClass.TICKETLOGDIRECTORY + month+Year+".txt"))
             {
-                //File.OpenWrite(@"\\netserver3\Data\Log_Tickets_all\TicketLog" + month + Year + ".txt");
-                File.AppendAllText(@"\\netserver3\Data\Log_Tickets_all\TicketLog" + month + Year + ".txt",
+                File.AppendAllText(DeclarationClass.TICKETLOGDIRECTORY + month + Year + ".txt",
                     "\r\n<TicketType> " + TicketType + " </TicketType> "+
                     "\r\n<Ticket> " + Ticket + " </Ticket> "+
                     "\r\n<Date> " + Date + " </Date> " +
@@ -28,11 +27,10 @@ namespace ExcelReadingApp
             }
             else
             {
-                File.Create(@"\\netserver3\Data\Log_Tickets_all\TicketLog" + month + Year + ".txt");
-                if (File.Exists(@"\\netserver3\Data\Log_Tickets_all\TicketLog" + month + Year + ".txt"))
+                File.Create(DeclarationClass.TICKETLOGDIRECTORY + month + Year + ".txt");
+                if (File.Exists(DeclarationClass.TICKETLOGDIRECTORY + month + Year + ".txt"))
                 {
-                    //File.OpenWrite(@"\\netserver3\Data\Log_Tickets_all\TicketLog" + month + Year + ".txt");
-                    File.AppendAllText(@"\\netserver3\Data\Log_Tickets_all\TicketLog" + month + Year + ".txt",
+                    File.AppendAllText(DeclarationClass.TICKETLOGDIRECTORY + month + Year + ".txt",
                         "\r\n<Date>" + Date + "</Date>" +
                         "\r\n<TicketType> " + TicketType + " </TicketType> " +
                         "\r\n<Ticket> " + Ticket + " </Ticket> " +

@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Button_main = new System.Windows.Forms.Button();
             this.richTextBox_FileFormat = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -44,9 +44,11 @@
             this.label5 = new System.Windows.Forms.Label();
             this.comboBox_CompanyName = new System.Windows.Forms.ComboBox();
             this.comboBox_DataBaseName = new System.Windows.Forms.ComboBox();
-            this.richTextBox_viewer = new System.Windows.Forms.RichTextBox();
+            this.RTB1 = new System.Windows.Forms.RichTextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Tickets = new System.Windows.Forms.TabPage();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.checkBox_tab1_Intellicode = new System.Windows.Forms.CheckBox();
             this.checkBox_tab1_deleteEmptyCinXLS = new System.Windows.Forms.CheckBox();
             this.checkBox_Tab1_SaveInShipment = new System.Windows.Forms.CheckBox();
@@ -125,6 +127,9 @@
             this.button_tab5_GetData = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.SpecialFormats = new System.Windows.Forms.TabPage();
+            this.radioButton_T6_TXT = new System.Windows.Forms.RadioButton();
+            this.label37 = new System.Windows.Forms.Label();
+            this.textBox_DeviceType = new System.Windows.Forms.TextBox();
             this.label36 = new System.Windows.Forms.Label();
             this.WhatToFind = new System.Windows.Forms.ComboBox();
             this.radioButton3_XML = new System.Windows.Forms.RadioButton();
@@ -149,15 +154,12 @@
             this.label_TicketNumberDisplay = new System.Windows.Forms.Label();
             this.label_Date = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.progressBarUniversal = new System.Windows.Forms.ProgressBar();
+            this.PBar1 = new System.Windows.Forms.ProgressBar();
             this.labelVersionNumber1 = new System.Windows.Forms.Label();
             this.toolTip_version = new System.Windows.Forms.ToolTip(this.components);
             this.button_ForDebug = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.vishalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.textBox_DeviceType = new System.Windows.Forms.TextBox();
-            this.label37 = new System.Windows.Forms.Label();
-            this.radioButton_T6_TXT = new System.Windows.Forms.RadioButton();
             this.tabControl1.SuspendLayout();
             this.Tickets.SuspendLayout();
             this.DefineCompany.SuspendLayout();
@@ -214,7 +216,6 @@
             this.textBox_PickTicketNumber.Name = "textBox_PickTicketNumber";
             this.textBox_PickTicketNumber.Size = new System.Drawing.Size(322, 26);
             this.textBox_PickTicketNumber.TabIndex = 5;
-            this.textBox_PickTicketNumber.TextChanged += new System.EventHandler(this.textBox_PickTicketNumber_TextChanged);
             this.textBox_PickTicketNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_PickTicketNumber_KeyPress);
             // 
             // textBox_CustomerPO
@@ -289,24 +290,24 @@
             this.comboBox_DataBaseName.DropDown += new System.EventHandler(this.comboBox_DataBaseName_DropDown);
             this.comboBox_DataBaseName.DropDownClosed += new System.EventHandler(this.comboBox_DataBaseName_DropDownClosed);
             // 
-            // richTextBox_viewer
+            // RTB1
             // 
-            this.richTextBox_viewer.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.richTextBox_viewer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox_viewer.Location = new System.Drawing.Point(6, 6);
-            this.richTextBox_viewer.Name = "richTextBox_viewer";
-            this.richTextBox_viewer.Size = new System.Drawing.Size(617, 319);
-            this.richTextBox_viewer.TabIndex = 16;
-            this.richTextBox_viewer.Text = "";
+            this.RTB1.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.RTB1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB1.Location = new System.Drawing.Point(6, 6);
+            this.RTB1.Name = "RTB1";
+            this.RTB1.Size = new System.Drawing.Size(617, 319);
+            this.RTB1.TabIndex = 16;
+            this.RTB1.Text = "";
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.Tickets);
             this.tabControl1.Controls.Add(this.DefineCompany);
-            this.tabControl1.Controls.Add(this.DefineXML);
-            this.tabControl1.Controls.Add(this.SearchLog);
-            this.tabControl1.Controls.Add(this.Everything);
             this.tabControl1.Controls.Add(this.SpecialFormats);
+            this.tabControl1.Controls.Add(this.Everything);
+            this.tabControl1.Controls.Add(this.SearchLog);
+            this.tabControl1.Controls.Add(this.DefineXML);
             this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
@@ -316,6 +317,8 @@
             // 
             // Tickets
             // 
+            this.Tickets.Controls.Add(this.button7);
+            this.Tickets.Controls.Add(this.button8);
             this.Tickets.Controls.Add(this.checkBox_tab1_Intellicode);
             this.Tickets.Controls.Add(this.checkBox_tab1_deleteEmptyCinXLS);
             this.Tickets.Controls.Add(this.checkBox_Tab1_SaveInShipment);
@@ -332,7 +335,7 @@
             this.Tickets.Controls.Add(this.radioButton_LoraVision);
             this.Tickets.Controls.Add(this.comboBox_DataBaseName);
             this.Tickets.Controls.Add(this.label1);
-            this.Tickets.Controls.Add(this.richTextBox_viewer);
+            this.Tickets.Controls.Add(this.RTB1);
             this.Tickets.Controls.Add(this.Button_main);
             this.Tickets.Controls.Add(this.richTextBox_FileFormat);
             this.Tickets.Controls.Add(this.textBox_PickTicketNumber);
@@ -349,6 +352,36 @@
             this.Tickets.TabIndex = 0;
             this.Tickets.Text = "Ticket";
             this.Tickets.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            this.button7.BackColor = System.Drawing.Color.Silver;
+            this.button7.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button7.ImageAlign = System.Drawing.ContentAlignment.TopRight;
+            this.button7.Location = new System.Drawing.Point(856, 245);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(179, 21);
+            this.button7.TabIndex = 36;
+            this.button7.Text = "File name";
+            this.button7.UseVisualStyleBackColor = false;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button8
+            // 
+            this.button8.BackColor = System.Drawing.Color.Silver;
+            this.button8.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button8.ImageAlign = System.Drawing.ContentAlignment.TopRight;
+            this.button8.Location = new System.Drawing.Point(856, 220);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(81, 21);
+            this.button8.TabIndex = 37;
+            this.button8.Text = "File";
+            this.button8.UseVisualStyleBackColor = false;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // checkBox_tab1_Intellicode
             // 
@@ -730,7 +763,7 @@
             this.DefineXML.Name = "DefineXML";
             this.DefineXML.Size = new System.Drawing.Size(1044, 379);
             this.DefineXML.TabIndex = 2;
-            this.DefineXML.Text = "Define XML";
+            this.DefineXML.Text = "XML(Discarded)";
             this.DefineXML.UseVisualStyleBackColor = true;
             // 
             // richTextBox_TAB3
@@ -1169,34 +1202,34 @@
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Name = "dataGridView1";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridView1.Size = new System.Drawing.Size(1037, 302);
             this.dataGridView1.TabIndex = 0;
             // 
@@ -1232,6 +1265,35 @@
             this.SpecialFormats.TabIndex = 5;
             this.SpecialFormats.Text = "Special Formats";
             this.SpecialFormats.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_T6_TXT
+            // 
+            this.radioButton_T6_TXT.AutoSize = true;
+            this.radioButton_T6_TXT.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.radioButton_T6_TXT.Location = new System.Drawing.Point(578, 290);
+            this.radioButton_T6_TXT.Name = "radioButton_T6_TXT";
+            this.radioButton_T6_TXT.Size = new System.Drawing.Size(110, 17);
+            this.radioButton_T6_TXT.TabIndex = 33;
+            this.radioButton_T6_TXT.TabStop = true;
+            this.radioButton_T6_TXT.Text = "TXT File to Export";
+            this.radioButton_T6_TXT.UseVisualStyleBackColor = true;
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(700, 61);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(65, 13);
+            this.label37.TabIndex = 32;
+            this.label37.Text = "DeviceType";
+            // 
+            // textBox_DeviceType
+            // 
+            this.textBox_DeviceType.Location = new System.Drawing.Point(700, 77);
+            this.textBox_DeviceType.Name = "textBox_DeviceType";
+            this.textBox_DeviceType.Size = new System.Drawing.Size(114, 20);
+            this.textBox_DeviceType.TabIndex = 31;
+            this.textBox_DeviceType.Text = "ELECTRIC METER";
             // 
             // label36
             // 
@@ -1329,7 +1391,6 @@
             this.comboBox_t6_CompanyName.TabIndex = 22;
             this.comboBox_t6_CompanyName.Text = "demo";
             this.comboBox_t6_CompanyName.DropDown += new System.EventHandler(this.comboBox_t6_CompanyName_DropDown);
-            this.comboBox_t6_CompanyName.SelectedIndexChanged += new System.EventHandler(this.comboBox_t6_CompanyName_SelectedIndexChanged);
             this.comboBox_t6_CompanyName.DropDownClosed += new System.EventHandler(this.comboBox_t6_CompanyName_DropDownClosed);
             // 
             // textbox_t6_PO
@@ -1478,14 +1539,14 @@
             this.pictureBox1.TabIndex = 25;
             this.pictureBox1.TabStop = false;
             // 
-            // progressBarUniversal
+            // PBar1
             // 
-            this.progressBarUniversal.Location = new System.Drawing.Point(12, 417);
-            this.progressBarUniversal.Name = "progressBarUniversal";
-            this.progressBarUniversal.Size = new System.Drawing.Size(1048, 26);
-            this.progressBarUniversal.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBarUniversal.TabIndex = 20;
-            this.progressBarUniversal.UseWaitCursor = true;
+            this.PBar1.Location = new System.Drawing.Point(12, 417);
+            this.PBar1.Name = "PBar1";
+            this.PBar1.Size = new System.Drawing.Size(1048, 26);
+            this.PBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.PBar1.TabIndex = 20;
+            this.PBar1.UseWaitCursor = true;
             // 
             // labelVersionNumber1
             // 
@@ -1521,35 +1582,6 @@
             this.vishalToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
             this.vishalToolStripMenuItem.Text = "vishal";
             // 
-            // textBox_DeviceType
-            // 
-            this.textBox_DeviceType.Location = new System.Drawing.Point(700, 77);
-            this.textBox_DeviceType.Name = "textBox_DeviceType";
-            this.textBox_DeviceType.Size = new System.Drawing.Size(114, 20);
-            this.textBox_DeviceType.TabIndex = 31;
-            this.textBox_DeviceType.Text = "ELECTRIC METER";
-            // 
-            // label37
-            // 
-            this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(700, 61);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(65, 13);
-            this.label37.TabIndex = 32;
-            this.label37.Text = "DeviceType";
-            // 
-            // radioButton_T6_TXT
-            // 
-            this.radioButton_T6_TXT.AutoSize = true;
-            this.radioButton_T6_TXT.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.radioButton_T6_TXT.Location = new System.Drawing.Point(578, 290);
-            this.radioButton_T6_TXT.Name = "radioButton_T6_TXT";
-            this.radioButton_T6_TXT.Size = new System.Drawing.Size(110, 17);
-            this.radioButton_T6_TXT.TabIndex = 33;
-            this.radioButton_T6_TXT.TabStop = true;
-            this.radioButton_T6_TXT.Text = "TXT File to Export";
-            this.radioButton_T6_TXT.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1564,7 +1596,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label_Date);
             this.Controls.Add(this.label_TicketNumberDisplay);
-            this.Controls.Add(this.progressBarUniversal);
+            this.Controls.Add(this.PBar1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -1608,7 +1640,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage Tickets;
         private System.Windows.Forms.TabPage DefineCompany;
-        public System.Windows.Forms.RichTextBox richTextBox_viewer;
+        public System.Windows.Forms.RichTextBox RTB1;
         private System.Windows.Forms.RadioButton radioButton_Austin2020Vision;
         private System.Windows.Forms.RadioButton radioButton_LoraVision;
         private System.Windows.Forms.Button buttonTab2_Start;
@@ -1620,7 +1652,7 @@
         private System.Windows.Forms.Button button_PasteCompanyName;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox textBox_FolderName;
-        private System.Windows.Forms.ProgressBar progressBarUniversal;
+        private System.Windows.Forms.ProgressBar PBar1;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
@@ -1719,6 +1751,8 @@
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.TextBox textBox_DeviceType;
         private System.Windows.Forms.RadioButton radioButton_T6_TXT;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }
 

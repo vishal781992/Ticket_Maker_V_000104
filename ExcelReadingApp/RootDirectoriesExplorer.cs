@@ -22,6 +22,9 @@ namespace ExcelReadingApp
     class RootDirectoriesExplorer
     {
         #region Declaration
+
+        DeclarationClass DC = new DeclarationClass();
+
         public List<string> DirNames = new List<string>();
         public List<string> FileNames = new List<string>();
         public List<string> FileDirecrtory = new List<string>();
@@ -38,15 +41,9 @@ namespace ExcelReadingApp
         public string XMLFileFullPath { get; set; }
         public string CompanyName{ get; set; }
 
-        public const string rootDirForXMLFiles = @"\\Netserver3\DATA\ShipmentsXMLfiles"; // the path is used for taking the files
-
-        public string File1FullPath = string.Empty,
-                        File2FullPath = string.Empty,
-                        File1Name = string.Empty,
-                        File2Name = string.Empty,
-                        File1NameTrimmed = string.Empty,
-                        FilePathOfXMLtemp,
+        public string   FilePathOfXMLtemp,
                         ExportXlSXfilePath;
+
         #endregion Declaration
 
         #region Constructor Empty inputs
@@ -57,7 +54,7 @@ namespace ExcelReadingApp
         public void DirectoriesExplorer([Optional] string rootD, [Optional] string formatTolookUP)
         {
             if (string.IsNullOrEmpty(rootD))
-                rootD = rootDirForXMLFiles;
+                rootD = DeclarationClass.ROOTDIRFORXMLFILES;
             if (string.IsNullOrEmpty(formatTolookUP))
                 formatTolookUP = "*.xml";
             // Get a list of all subdirectories
@@ -137,15 +134,15 @@ namespace ExcelReadingApp
             {
                 if (file.LastWriteTime < lastupdated)
                 {
-                    if (file.Name.Contains(File1NameTrimmed)) //softcode it
+                    if (file.Name.Contains(DC.File1NameTrimmed)) //softcode it
                     {
                         lastupdated = file.LastWriteTime;
-                        File2FullPath = file.FullName;
-                        File2Name = file.Name;
+                        DC.File2FullPath = file.FullName;
+                        DC.File2Name = file.Name;
                     }
                 }
             }
-            return File2FullPath;
+            return DC.File2FullPath;
         }
 
         public string LatestFileSort(string FileInputDir,string format)
@@ -161,22 +158,22 @@ namespace ExcelReadingApp
                 if (file.LastWriteTime > lastupdated)
                 {
                     lastupdated = file.LastWriteTime;
-                    File1FullPath = file.FullName;
-                    File1Name = file.Name;
+                    DC.File1FullPath = file.FullName;
+                    DC.File1Name = file.Name;
                 }
             }
             try
             {
-                int temp_index = File1Name.IndexOf("_");
-                File1NameTrimmed = File1Name.Substring(temp_index + 1, 15);
-                int temp_index1 = File1NameTrimmed.IndexOf("_");
+                int temp_index = DC.File1Name.IndexOf("_");
+                DC.File1NameTrimmed = DC.File1Name.Substring(temp_index + 1, 15);
+                int temp_index1 = DC.File1NameTrimmed.IndexOf("_");
                 temp_index = temp_index + temp_index1 + 1;//additional 1 char helps to get the complete last word
-                File1NameTrimmed = File1Name.Substring(0, temp_index);
-                return File1FullPath;
+                DC.File1NameTrimmed = DC.File1Name.Substring(0, temp_index);
+                return DC.File1FullPath;
             }
             catch
             {
-                return File1FullPath;
+                return DC.File1FullPath;
             }
             
         }
@@ -192,15 +189,14 @@ namespace ExcelReadingApp
             ExportXlSXfilePath = string.Empty;
             try
             {
-                FileFullPath = rootDirForXMLFiles + "\\" + NameOfFile + "\\";
+                FileFullPath = DeclarationClass.ROOTDIRFORXMLFILES + "\\" + NameOfFile + "\\";
                 string FilePathComplete = LatestFileSort(FileFullPath,"xml");//latest Sort function
-                //var FilePathComplete = Directory.GetFiles(FileFullPath);
-                FilePathOfXMLtemp = FilePathComplete;//FilePathComplete[0].ToString();
+
+                FilePathOfXMLtemp = FilePathComplete;
                 FileNameOnly = FilePathOfXMLtemp.Substring(FileFullPath.Length, (FilePathOfXMLtemp.Length - FileFullPath.Length));
                 FileNameOnly = FileNameOnly.Substring(0, FileNameOnly.IndexOf('.'));
-                //CompanyName_TicketNumber_DataBase_Date
-                ExportXlSXfilePath = @"\\Netserver3\DATA\Vishal_ShipmentFiles\" + NameOfFile + "\\";//important in the future states
-                string TempPath = @"\\Netserver3\DATA\Vishal_ShipmentFiles\" + NameOfFile;
+                ExportXlSXfilePath = DeclarationClass.VISHALSHIPMENTPATH_ + NameOfFile + "\\";//important in the future states
+                string TempPath = DeclarationClass.VISHALSHIPMENTPATH_ + NameOfFile;
                 if (!Directory.Exists(TempPath))
                 {
                     Directory.CreateDirectory(TempPath);

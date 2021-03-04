@@ -12,8 +12,11 @@ namespace ExcelReadingApp
     class dataVerification
     {
         #region Declarations
+        DeclarationClass DC = new DeclarationClass();
+
         protected dynamic[,] arrayMessageFromDatabase = new string[4000, 200];
         public dynamic[,] TempAryForIntegers = new dynamic[4000,25];
+
         protected List<string> columnValue = new List<string>();
         protected List<string> List_Common_temp = new List<string>();
         protected List<string> List_Common_temp_New = new List<string>();
@@ -23,15 +26,12 @@ namespace ExcelReadingApp
 
         protected List<double> List_Common_temp_Double = new List<double>();
 
-        protected string[] CommIDList = new string[] { "CommID", "CommID1", "CommID2", "CommID3", "CommID4" };
-        protected string[] CommIDShortcuts = new string[] { "C0", "C1", "C2", "C3", "C4" };
-
         protected int rowCounter;
         public int rowcounterTillNow =0, RowCounterForTheSpecTicket, CounterUniversalForEachTicket=0;
         public bool Flag_ErrorInPallet = false;
 
         //Declaration for AL Values for verification
-        public double LowerL_SL_SF = 99.85, HigherL_SL_SF = 100.15, LowerL_SP_WA = 99.75, HigherL_SP_WA = 100.25;
+        
         #endregion Declarations
 
         #region Constructor important
@@ -70,9 +70,6 @@ namespace ExcelReadingApp
                     value = columnValue[counterToBox];
                 }
 
-                //rough code
-                //int counterD = 0;
-                //foreach (string Tofind in arrayMessageFromDatabase.)
                 for (int counterD = 0;counterD< rowCounter;counterD++)
                 {
                     try
@@ -156,7 +153,7 @@ namespace ExcelReadingApp
                         bool result = double.TryParse(arrayMessageFromDatabase[counterD, counter], out double TempDouble);
                         if (result)
                         {
-                            if (TempDouble >= LowerL_SP_WA && TempDouble <= HigherL_SP_WA) { }   //
+                            if (TempDouble >= DeclarationClass.LowerL_SP_WA && TempDouble <= DeclarationClass.HigherL_SP_WA) { }   //
                             else
                             {
                                 List_Common_temp.Add("["+arrayMessageFromDatabase[counterD, counterToBatch] + ": " + arrayMessageFromDatabase[counterD, counter]+"]");
@@ -177,7 +174,7 @@ namespace ExcelReadingApp
                         bool result = double.TryParse(arrayMessageFromDatabase[counterD, counter], out double TempDouble);
                         if (result)
                         {
-                            if (TempDouble >= LowerL_SL_SF && TempDouble <= HigherL_SL_SF) { }
+                            if (TempDouble >= DeclarationClass.LowerL_SL_SF && TempDouble <= DeclarationClass.HigherL_SL_SF) { }
                             else
                             {
                                 List_Common_temp.Add("["+arrayMessageFromDatabase[counterD, counterToBatch] + ": " + arrayMessageFromDatabase[counterD, counter]+"]");
@@ -188,7 +185,7 @@ namespace ExcelReadingApp
                     catch { }
                 }
             }
-            //sprting the Lists here.
+            //sorting the Lists here.
             List_Common_temp.Sort(); List_Common_temp_Double.Sort();
 
             return new Tuple<List<string>, List<double>>(List_Common_temp, List_Common_temp_Double);
@@ -208,12 +205,12 @@ namespace ExcelReadingApp
                     value = columnValue[counterToBatch];
 
                 }
-                for (int LoopCounter = 0;LoopCounter<CommIDList.Length;LoopCounter++)
+                for (int LoopCounter = 0;LoopCounter<DC.CommIDList.Length;LoopCounter++)
                 {
                     counter = 0;
                     try
                     {
-                        while (value.ToUpper() != CommIDList[LoopCounter].ToUpper() || counter == columnValue.Count)//"FirmwareRevision"
+                        while (value.ToUpper() != DC.CommIDList[LoopCounter].ToUpper() || counter == columnValue.Count)//"FirmwareRevision"
                         {
                             counter++;
                             value = columnValue[counter];

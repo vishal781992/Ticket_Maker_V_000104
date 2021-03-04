@@ -9,8 +9,8 @@ namespace ExcelReadingApp
     class DeclarationClass
     {
         #region Main File Form
-        public string Version = "V.0.01.03";//latest as of 04/March/2020
-        public string VersionDetails = "Array Size 4000, Cleaned the XML function for tab6, clipboard action added. Added xml support for dominion.\r\nAdded xlsx format for all files .Added Dominion. Cleared all small bugs,\r\nNewest version, Added suport for Kevin everywhere.\r\nAdded more Functions to view the Database.";
+        public string Version = "V.0.01.04";//latest as of 04/March/2020
+        public string VersionDetails = "Code is being cleaned 1. Array Size 4000, Cleaned the XML function for tab6, clipboard action added. Added xml support for dominion.\r\nAdded xlsx format for all files .Added Dominion. Cleared all small bugs,\r\nNewest version, Added suport for Kevin everywhere.\r\nAdded more Functions to view the Database.";
       
         public string databaseType = string.Empty;//"dbo";
 
